@@ -1,0 +1,28 @@
+{
+  "refreshed": "2026-04-09T00:00:00.000Z",
+  "source": "initial-research",
+  "lastCIRun": null,
+  "ciStatus": "not-run",
+  "avgTimeToFill": 56,
+  "marketCondition": "tight",
+  "tools": {
+    "aem_sites":  { "activePostings": 1436, "medianSalary5_7yr": 155000, "poolEstimate": 21500, "scarcityTrend": "stable" },
+    "aem_cloud":  { "activePostings": 380,  "medianSalary5_7yr": 172000, "poolEstimate": 4500,  "scarcityTrend": "rising" },
+    "aep":        { "activePostings": 920,  "medianSalary5_7yr": 168000, "poolEstimate": 5000,  "scarcityTrend": "rising" },
+    "analytics":  { "activePostings": 6370, "medianSalary5_7yr": 142000, "poolEstimate": 37500, "scarcityTrend": "stable" },
+    "cja":        { "activePostings": 45,   "medianSalary5_7yr": 158000, "poolEstimate": 2750,  "scarcityTrend": "rising" },
+    "target":     { "activePostings": 421,  "medianSalary5_7yr": 134000, "poolEstimate": 11000, "scarcityTrend": "stable" },
+    "marketo":    { "activePostings": 700,  "medianSalary5_7yr": 104000, "poolEstimate": 55000, "scarcityTrend": "stable" },
+    "ajo":        { "activePostings": 229,  "medianSalary5_7yr": 156000, "poolEstimate": 2000,  "scarcityTrend": "rising" },
+    "campaign":   { "activePostings": 310,  "medianSalary5_7yr": 122000, "poolEstimate": 8000,  "scarcityTrend": "falling" },
+    "aem_dam":    { "activePostings": 290,  "medianSalary5_7yr": 128000, "poolEstimate": 8500,  "scarcityTrend": "stable" }
+  },
+  "sources": [
+    "https://www.ziprecruiter.com",
+    "https://www.glassdoor.com",
+    "https://www.linkedin.com/jobs",
+    "https://www.indeed.com",
+    "https://www.talent.com",
+    "https://www.roberthalf.com/us/en/insights/research/2026-salary-guide"
+  ]
+}
