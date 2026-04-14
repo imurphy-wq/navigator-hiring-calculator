@@ -3288,39 +3288,48 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
     </div>`;
 
   // ── Tab 3: 6-Month Roadmap ────────────────────────────────────────────────
-  const allByPhase = [
-    tasks.filter(t => t.phase === 1),
-    tasks.filter(t => t.phase === 2),
-    tasks.filter(t => t.phase === 3),
+  // Hour-aware bin packing: fill each month up to 40 hrs before rolling to next.
+  // Tasks sorted phase-first so foundation work always lands in early months.
+  const MONTH_BUDGET = 40;
+  const rmMonths = Array.from({ length: 6 }, (_, i) => ({ tasks: [], hrs: 0 }));
+  const tasksSortedByPhase = [...tasks].sort((a, b) => a.phase - b.phase || b.matchScore - a.matchScore);
+
+  let rmIdx = 0;
+  tasksSortedByPhase.forEach(t => {
+    // Advance month pointer until task fits or we're on the last month
+    while (rmIdx < 5 && rmMonths[rmIdx].hrs + t.navHrs > MONTH_BUDGET) rmIdx++;
+    rmMonths[rmIdx].tasks.push(t);
+    rmMonths[rmIdx].hrs += t.navHrs;
+  });
+
+  // Add wrap-up items to Month 6 if it has spare capacity
+  ['Stakeholder knowledge transfer', 'Ongoing governance & optimization'].forEach(s => {
+    if (rmMonths[5].tasks.length < 5) rmMonths[5].tasks.push({ task: s, navHrs: 0 });
+  });
+
+  const rmPhaseConfig = [
+    { phaseClass: 'phase-1', phaseLabel: 'Foundation' },
+    { phaseClass: 'phase-1', phaseLabel: 'Foundation Complete' },
+    { phaseClass: 'phase-2', phaseLabel: 'Core Build' },
+    { phaseClass: 'phase-2', phaseLabel: 'Core Complete' },
+    { phaseClass: 'phase-3', phaseLabel: 'Optimization' },
+    { phaseClass: 'phase-3', phaseLabel: 'Advanced Capabilities' },
   ];
 
-  const roadmapMonths = [
-    { label: 'Month 1', phase: 1, phaseClass: 'phase-1', phaseLabel: 'Foundation',
-      items: allByPhase[0].slice(0,3).map(t => t.task) },
-    { label: 'Month 2', phase: 1, phaseClass: 'phase-1', phaseLabel: 'Foundation Complete',
-      items: allByPhase[0].slice(3).concat(allByPhase[1].slice(0,1)).map(t => t.task) },
-    { label: 'Month 3', phase: 2, phaseClass: 'phase-2', phaseLabel: 'Core Build',
-      items: allByPhase[1].slice(1,4).map(t => t.task) },
-    { label: 'Month 4', phase: 2, phaseClass: 'phase-2', phaseLabel: 'Core Complete',
-      items: allByPhase[1].slice(4).concat(allByPhase[2].slice(0,1)).map(t => t.task) },
-    { label: 'Month 5', phase: 3, phaseClass: 'phase-3', phaseLabel: 'Optimization',
-      items: allByPhase[2].slice(1,3).map(t => t.task) },
-    { label: 'Month 6', phase: 3, phaseClass: 'phase-3', phaseLabel: 'Advanced Capabilities',
-      items: allByPhase[2].slice(3).concat([
-        'Stakeholder knowledge transfer',
-        'Ongoing governance & optimization',
-      ]).map(t => typeof t === 'string' ? t : t.task) },
-  ];
-
-  const monthCards = roadmapMonths.map(m => `
-    <div class="del-month-card ${m.phaseClass}">
-      <div class="del-month-label">${m.label}</div>
-      <div class="del-month-phase">${m.phaseLabel}</div>
-      <div class="del-month-hrs">40 <span>hrs / mo</span></div>
+  const monthCards = rmMonths.map((m, i) => {
+    const cfg = rmPhaseConfig[i];
+    const displayHrs = m.hrs > 0 ? m.hrs : '—';
+    const items = m.tasks.length > 0 ? m.tasks.map(t => t.task) : ['Platform configuration & setup'];
+    return `
+    <div class="del-month-card ${cfg.phaseClass}">
+      <div class="del-month-label">Month ${i + 1}</div>
+      <div class="del-month-phase">${cfg.phaseLabel}</div>
+      <div class="del-month-hrs">${displayHrs} <span>hrs / mo</span></div>
       <ul class="del-month-items">
-        ${(m.items.length > 0 ? m.items : ['Platform configuration & setup']).map(i => `<li>${i}</li>`).join('')}
+        ${items.map(s => `<li>${s}</li>`).join('')}
       </ul>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 
   const roadmapHtml = `
     <div class="del-roadmap-grid">${monthCards}</div>
@@ -3341,7 +3350,7 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
         <div class="del-compare-item"><span class="del-compare-key">Typical spend</span><span class="del-compare-val">$300K–$750K</span></div>
         <div class="del-compare-item"><span class="del-compare-key">Foundation done by</span><span class="del-compare-val">Month 3–4</span></div>
         <div class="del-compare-item"><span class="del-compare-key">Full platform live</span><span class="del-compare-val">Month 6–9</span></div>
-        <div class="del-compare-item"><span class="del-compare-key">Budget overrun risk</span><span class="del-compare-val">47–70%</span></div>
+        <div class="del-compare-item"><span class="del-compare-key">Budget overrun risk</span><span class="del-compare-val">54–70%</span></div>
       </div>
       <div class="del-compare-col fte-col">
         <div class="del-compare-col-title">FTE Hire — 6-Month Reality</div>
