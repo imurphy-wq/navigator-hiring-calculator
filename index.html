@@ -1823,7 +1823,9 @@ const JD_TOOL_PATTERNS = [
 
 // Required vs. nice-to-have signals
 const REQUIRED_SIGNALS = ['required','must have','must-have','mandatory','essential','minimum requirement'];
-const NICE_SIGNALS = ['preferred','nice to have','nice-to-have','plus','bonus','desired','a plus','an asset'];
+const NICE_SIGNALS = ['preferred','nice to have','nice-to-have','plus','bonus','desired','a plus','an asset',
+                      'familiarity with','familiar with','knowledge of','exposure to','awareness of',
+                      'understanding of','ideally','ideally have','ideally possess'];
 
 function getLineContext(text, matchIndex) {
   const lineStart = text.lastIndexOf('\n', matchIndex) + 1;
@@ -2338,25 +2340,31 @@ function calculate() {
 function runCalculation({ selected, roleType, location, timeline, jobTitle, offeredSalary }) {
   // (formerly the body of calculate())
 
+  // Separate required tools (drive pool/probability) from nice-to-have (add salary premium only)
+  const reqSelected = selected.filter(s => s.required !== false);
+  const niceSelected = selected.filter(s => s.required === false);
+  const coreSelected = reqSelected.length > 0 ? reqSelected : selected; // fallback: use all if none marked required
+
   // Check for a research-backed combination override
-  const sortedIds = selected.map(s => s.tool.id).sort().join('+');
+  const sortedIds = coreSelected.map(s => s.tool.id).sort().join('+');
   // Determine the dominant tier (most commonly selected)
   const tierCounts = {};
   selected.forEach(s => { tierCounts[s.tier] = (tierCounts[s.tier] || 0) + 1; });
   const dominantTier = Object.entries(tierCounts).sort((a,b) => b[1]-a[1])[0][0];
 
   const override = COMBO_OVERRIDES[sortedIds];
-  const hasAEP = selected.some(s => s.tool.id === 'aep' || s.tool.id === 'cja' || s.tool.id === 'ajo');
-  const numTools = Math.min(selected.length, 6);
+  // AEP flag based only on required tools — preferred AEP mention shouldn't tank the pool
+  const hasAEP = coreSelected.some(s => s.tool.id === 'aep' || s.tool.id === 'cja' || s.tool.id === 'ajo');
+  const numTools = Math.min(coreSelected.length, 6);
 
-  // Base probability
+  // Base probability — driven only by required tools
   let minP60 = 1.0;
   let maxScarcity = 0;
   let totalSalLow = 0, totalSalHigh = 0;
   let totalTTF = 0;
   let minPool = Infinity;
 
-  selected.forEach(({ tool, tier }) => {
+  coreSelected.forEach(({ tool, tier }) => {
     const d = tool.tiers[tier];
     if (d.p60 < minP60) minP60 = d.p60;
     if (d.pool < minPool) minPool = d.pool;
@@ -2364,6 +2372,13 @@ function runCalculation({ selected, roleType, location, timeline, jobTitle, offe
     totalSalLow = Math.max(totalSalLow, d.salLow);
     totalSalHigh = Math.max(totalSalHigh, d.salHigh);
     totalTTF = Math.max(totalTTF, d.ttf);
+  });
+
+  // Nice-to-have tools add a modest salary lift but don't shrink the pool
+  niceSelected.forEach(({ tool, tier }) => {
+    const d = tool.tiers[tier];
+    totalSalLow = Math.max(totalSalLow, Math.round(d.salLow * 0.5));   // half-weight on salary floor
+    totalSalHigh = Math.max(totalSalHigh, Math.round(d.salHigh * 0.6)); // half-weight on salary ceiling
   });
 
   let baseP60;
@@ -3097,7 +3112,7 @@ const TASK_CATALOG = {
     { task: 'Adobe Analytics → CJA migration planning',   navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 3, del: 'CJA migration roadmap + dual-tag implementation guide' },
   ],
   target: [
-    { task: 'Target implementation & at.js / Web SDK setup',navHrs:6, siWks: 2,  fteMo: 3.5, phase: 1, del: 'Target deployed on all key pages + validated firing' },
+    { task: 'Target implementation & at.js / Web SDK setup',navHrs:6, siWks: 2,  fteMo: 4.0, phase: 1, del: 'Target deployed on all key pages + validated firing' },
     { task: 'A/B test framework — hypothesis & traffic',   navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Test framework + first 3 A/B tests live' },
     { task: 'VEC setup & SPA implementation',              navHrs: 10, siWks: 3,  fteMo: 4.0, phase: 2, del: 'VEC-compatible SPA with custom events + activities' },
     { task: 'Recommendations catalog, criteria & entity feed',navHrs:12,siWks:4, fteMo: 4.5, phase: 2, del: 'Recommendations engine live with 3 criteria designs' },
@@ -3105,10 +3120,10 @@ const TASK_CATALOG = {
     { task: 'Auto-Allocate, Auto-Target & Automated Personalization',navHrs:8,siWks:3,fteMo:4.5,phase:3,del:'ML-powered personalization with statistical baseline' },
   ],
   marketo: [
-    { task: 'Instance audit & deliverability health check', navHrs: 14, siWks: 3, fteMo: 3.5, phase: 1, del: 'Instance audit report + prioritized remediation plan' },
-    { task: 'Program template library (email, nurture, event)',navHrs:10,siWks:4, fteMo: 3.5, phase: 1, del: '4 production-ready program templates' },
-    { task: 'Smart campaign logic & trigger architecture', navHrs: 8,  siWks: 3,  fteMo: 3.5, phase: 1, del: 'Core nurture campaign live with documented flow logic' },
-    { task: 'Marketo–Salesforce sync audit & field mapping',navHrs:10, siWks: 3,  fteMo: 3.5, phase: 1, del: 'Sync health report + remediated field mapping' },
+    { task: 'Instance audit & deliverability health check', navHrs: 14, siWks: 3, fteMo: 4.0, phase: 1, del: 'Instance audit report + prioritized remediation plan' },
+    { task: 'Program template library (email, nurture, event)',navHrs:10,siWks:4, fteMo: 4.0, phase: 1, del: '4 production-ready program templates' },
+    { task: 'Smart campaign logic & trigger architecture', navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Core nurture campaign live with documented flow logic' },
+    { task: 'Marketo–Salesforce sync audit & field mapping',navHrs:10, siWks: 3,  fteMo: 4.0, phase: 1, del: 'Sync health report + remediated field mapping' },
     { task: 'Lead scoring model (behavioral + demographic)', navHrs:8, siWks: 3,  fteMo: 4.0, phase: 2, del: 'Scoring model live with threshold-triggered alerts' },
     { task: 'Revenue Cycle Model & lifecycle stage design', navHrs: 12,siWks: 4,  fteMo: 4.5, phase: 2, del: 'RCM configured with validated stage transitions' },
   ],
