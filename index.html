@@ -2655,8 +2655,9 @@ const AGENCY_RATES = {
 //   Cognizant $210/hr, Wipro $190/hr, Capgemini $235/hr (min SOWs $300K–$1.5M)
 // Boutique SIs: Slalom $200–250/hr blended, Blue Acorn iCi $140–180/hr (min SOWs $100K–$250K)
 // Project ranges: 40Q Agency, Crafton, Brainvire, Oshyn, Net Effect (2025–2026)
-// Over-budget rate: 47–70% of enterprise software projects (Panorama Consulting 2024)
-// Offshore rework: adds ~40–50% to project cost; post-impl dependency: $15K–$50K/month retainer
+// Over-budget rate: Panorama Consulting 2024 found 54% of enterprise platform projects exceed budget;
+//   Gartner research places the failure-to-meet-objectives rate at 60–70% for digital transformation programs
+// Offshore rework: adds 15–30% to phase duration (McKinsey application services research); post-impl retainer: $15K–$50K/month
 const SI_PROJECT_COSTS = {
   aem_sites:  { minSOW: 350000, typicalMid: 600000, typicalHigh: 1500000, label: 'AEM Sites implementation' },
   aem_cloud:  { minSOW: 400000, typicalMid: 750000, typicalHigh: 2000000, label: 'AEMaaCS migration & implementation' },
@@ -2692,7 +2693,7 @@ function buildNavigatorPanel({ prob, pool, ttf, selected, numTools, roleType, sc
   // Source: Focus GTS Navigator ROI calculator (focusgts.com/navigator)
   //   FTE_FULLY_LOADED = 1.30, FTE_RECRUITING_FEE_PCT = 0.25, FTE_RAMP_MONTHS = 3
   //   Vacancy multiplier: 2.0x daily rate (Built In Cost of Vacancy formula)
-  const salaryBurden   = Math.round(salary * 1.30);
+  const salaryBurden   = Math.round(salary * 1.35);
   const recruitingFee  = Math.round(salary * 0.25);
   const rampCost       = Math.round(salary / 12 * 3 * 0.5);
   const vacancyGapCost = Math.round((salary / 260) * ttf * 2.0);
@@ -3048,84 +3049,84 @@ function buildRecs({ prob, selected, numTools, offeredSalary, benchLow, benchHig
 // ============================================================
 const TASK_CATALOG = {
   aem_sites: [
-    { task: 'Architecture audit & gap analysis',           navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Architecture assessment + prioritized recommendations' },
-    { task: 'Cloud Manager pipeline & environment setup',  navHrs: 6,  siWks: 2,  fteMo: 3.5, phase: 1, del: 'CI/CD pipeline: dev → stage → prod with quality gates' },
-    { task: 'Component library & Sling model design',      navHrs: 12, siWks: 5,  fteMo: 4.5, phase: 1, del: 'Component catalog + Sling model specifications' },
+    { task: 'Architecture audit & gap analysis',           navHrs: 12, siWks: 3,  fteMo: 4.0, phase: 1, del: 'Architecture assessment + prioritized recommendations' },
+    { task: 'Cloud Manager pipeline & environment setup',  navHrs: 10, siWks: 2,  fteMo: 4.0, phase: 1, del: 'CI/CD pipeline: dev → stage → prod with quality gates' },
+    { task: 'Component library & Sling model design',      navHrs: 20, siWks: 5,  fteMo: 4.5, phase: 1, del: 'Component catalog + Sling model specifications' },
     { task: 'Editable templates & experience fragments',   navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 2, del: 'Template governance + 3 production-ready templates' },
-    { task: 'Headless delivery (Content Fragments + GraphQL + SPA)',navHrs:20,siWks:8,fteMo:5.5,phase:2, del: 'Headless API layer + SPA integration proof of concept' },
-    { task: 'AEMaaCS migration strategy & execution',      navHrs: 24, siWks: 10, fteMo: 6.5, phase: 3, del: 'Migration runbook + validated cloud environment' },
+    { task: 'Headless delivery (Content Fragments + GraphQL + SPA)',navHrs:32,siWks:12,fteMo:5.5,phase:2, del: 'Headless API layer + SPA integration proof of concept' },
+    { task: 'AEMaaCS migration strategy & execution',      navHrs: 40, siWks: 16, fteMo: 6.5, phase: 3, del: 'Migration runbook + validated cloud environment' },
   ],
   aem_cloud: [
-    { task: 'On-Prem/AMS → AEMaaCS readiness assessment', navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Migration readiness report with risk register' },
-    { task: 'OSGi config & runmode strategy for cloud',    navHrs: 6,  siWks: 2,  fteMo: 3.5, phase: 1, del: 'Environment-specific config architecture + docs' },
-    { task: 'Cloud Manager pipeline design',               navHrs: 6,  siWks: 2,  fteMo: 3.5, phase: 1, del: 'Automated pipeline with quality gates' },
+    { task: 'On-Prem/AMS → AEMaaCS readiness assessment', navHrs: 12, siWks: 3,  fteMo: 4.0, phase: 1, del: 'Migration readiness report with risk register' },
+    { task: 'OSGi config & runmode strategy for cloud',    navHrs: 6,  siWks: 2,  fteMo: 4.0, phase: 1, del: 'Environment-specific config architecture + docs' },
+    { task: 'Cloud Manager pipeline design',               navHrs: 6,  siWks: 2,  fteMo: 4.0, phase: 1, del: 'Automated pipeline with quality gates' },
     { task: 'Content migration tooling (ACS Tools, Groovy)', navHrs:16,siWks:6,  fteMo: 5.0, phase: 2, del: 'Migration scripts + validation report' },
     { task: 'Dispatcher & CDN optimization',               navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 2, del: 'Optimized dispatcher config + CDN rules' },
-    { task: 'Technical debt remediation & cloud review',   navHrs: 12, siWks: 5,  fteMo: 5.5, phase: 3, del: 'Refactored codebase meeting cloud compatibility standards' },
+    { task: 'Technical debt remediation & cloud review',   navHrs: 16, siWks: 5,  fteMo: 5.5, phase: 3, del: 'Refactored codebase meeting cloud compatibility standards' },
   ],
   aem_dam: [
     { task: 'Assets / Dynamic Media config & profiles',    navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Configured processing profiles + Dynamic Media setup' },
-    { task: 'Metadata schema & smart tags',                navHrs: 6,  siWks: 2,  fteMo: 3.5, phase: 1, del: 'Metadata taxonomy + smart tag configuration' },
-    { task: 'Brand Portal setup & permission model',       navHrs: 6,  siWks: 2,  fteMo: 3.5, phase: 1, del: 'Brand Portal live with distribution trees + access control' },
+    { task: 'Metadata schema & smart tags',                navHrs: 6,  siWks: 2,  fteMo: 4.0, phase: 1, del: 'Metadata taxonomy + smart tag configuration' },
+    { task: 'Brand Portal setup & permission model',       navHrs: 6,  siWks: 2,  fteMo: 4.0, phase: 1, del: 'Brand Portal live with distribution trees + access control' },
     { task: 'DAM workflow automation (review/approval)',   navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 2, del: '3 automated workflow templates in production' },
-    { task: 'Asset migration & bulk ingestion pipeline',   navHrs: 12, siWks: 5,  fteMo: 5.0, phase: 2, del: 'Migration pipeline with validation + ingestion logs' },
-    { task: 'Content Hub & OpenAPI headless delivery',     navHrs: 12, siWks: 5,  fteMo: 5.5, phase: 3, del: 'Headless asset delivery API + integration documentation' },
+    { task: 'Asset migration & bulk ingestion pipeline',   navHrs: 20, siWks: 5,  fteMo: 5.0, phase: 2, del: 'Migration pipeline with validation + ingestion logs' },
+    { task: 'Content Hub & OpenAPI headless delivery',     navHrs: 20, siWks: 7,  fteMo: 5.5, phase: 3, del: 'Headless asset delivery API + integration documentation' },
   ],
   aep: [
-    { task: 'XDM schema design & data model governance',   navHrs: 16, siWks: 6,  fteMo: 4.5, phase: 1, del: 'XDM schema documentation + governance framework' },
+    { task: 'XDM schema design & data model governance',   navHrs: 20, siWks: 6,  fteMo: 4.5, phase: 1, del: 'XDM schema documentation + governance framework' },
     { task: 'Identity graph strategy & merge policies',    navHrs: 10, siWks: 4,  fteMo: 4.0, phase: 1, del: 'Identity namespace map + tested merge policies' },
     { task: 'Source connector setup (SFDC, AA, APIs)',     navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Configured data flows with validation + monitoring' },
     { task: 'Segment Builder audiences & activation',      navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 2, del: '5 production audiences activated to ad platforms / email' },
     { task: 'RT-CDP profile enrichment & consent mgmt',    navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 2, del: 'Enriched profile schema + consent enforcement rules' },
-    { task: 'AJO + AEP journey data flows & decisioning',  navHrs: 16, siWks: 7,  fteMo: 6.0, phase: 3, del: 'Live cross-channel journey with real-time profile triggers' },
+    { task: 'AJO + AEP journey data flows & decisioning',  navHrs: 20, siWks: 9,  fteMo: 6.0, phase: 3, del: 'Live cross-channel journey with real-time profile triggers' },
   ],
   cja: [
     { task: 'CJA connection design & AEP dataset stitching',navHrs:8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Configured CJA connection with validated data views' },
     { task: 'Cross-channel Analysis Workspace builds',     navHrs: 10, siWks: 4,  fteMo: 4.0, phase: 1, del: '3 cross-channel workspace reports with calculated metrics' },
     { task: 'Report Suite → CJA migration & dual-tag plan',navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Migration playbook + data validation checklist' },
-    { task: 'Attribution model & filter configuration',    navHrs: 6,  siWks: 2,  fteMo: 3.5, phase: 2, del: 'Custom attribution models + filter library' },
+    { task: 'Attribution model & filter configuration',    navHrs: 6,  siWks: 2,  fteMo: 4.0, phase: 2, del: 'Custom attribution models + filter library' },
     { task: 'Executive dashboard & scheduled reporting',   navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 2, del: 'Executive-facing dashboard + automated report delivery' },
-    { task: 'Data governance, access control & sharing',   navHrs: 6,  siWks: 2,  fteMo: 3.5, phase: 3, del: 'Role-based workspace access + governance documentation' },
+    { task: 'Data governance, access control & sharing',   navHrs: 6,  siWks: 2,  fteMo: 4.0, phase: 3, del: 'Role-based workspace access + governance documentation' },
   ],
   analytics: [
-    { task: 'Solution Design Reference & data layer design',navHrs:8,  siWks: 3,  fteMo: 3.5, phase: 1, del: 'Complete SDR document + data layer specification' },
-    { task: 'Adobe Launch (Tags) rule architecture',       navHrs: 8,  siWks: 3,  fteMo: 3.5, phase: 1, del: 'Production Tags property with core rules deployed' },
+    { task: 'Solution Design Reference & data layer design',navHrs:8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Complete SDR document + data layer specification' },
+    { task: 'Adobe Launch (Tags) rule architecture',       navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Production Tags property with core rules deployed' },
     { task: 'Web SDK / AppMeasurement implementation',     navHrs: 12, siWks: 5,  fteMo: 4.0, phase: 1, del: 'Validated tracking implementation across all key pages' },
-    { task: 'eVar/prop/event taxonomy governance audit',   navHrs: 6,  siWks: 2,  fteMo: 3.5, phase: 2, del: 'Taxonomy cleanup + governance documentation' },
+    { task: 'eVar/prop/event taxonomy governance audit',   navHrs: 6,  siWks: 2,  fteMo: 4.0, phase: 2, del: 'Taxonomy cleanup + governance documentation' },
     { task: 'Analysis Workspace builds & virtual report suites',navHrs:8,siWks:3, fteMo: 4.0, phase: 2, del: '5 Workspace projects + 2 virtual report suites' },
     { task: 'Adobe Analytics → CJA migration planning',   navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 3, del: 'CJA migration roadmap + dual-tag implementation guide' },
   ],
   target: [
     { task: 'Target implementation & at.js / Web SDK setup',navHrs:6, siWks: 2,  fteMo: 3.5, phase: 1, del: 'Target deployed on all key pages + validated firing' },
     { task: 'A/B test framework — hypothesis & traffic',   navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Test framework + first 3 A/B tests live' },
-    { task: 'VEC setup & SPA implementation',              navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 2, del: 'VEC-compatible SPA with custom events + activities' },
-    { task: 'Recommendations catalog, criteria & entity feed',navHrs:10,siWks:4, fteMo: 4.5, phase: 2, del: 'Recommendations engine live with 3 criteria designs' },
-    { task: 'Target + AEP real-time profile integration',  navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 2, del: 'AEP audience segments activating in Target real-time' },
+    { task: 'VEC setup & SPA implementation',              navHrs: 10, siWks: 3,  fteMo: 4.0, phase: 2, del: 'VEC-compatible SPA with custom events + activities' },
+    { task: 'Recommendations catalog, criteria & entity feed',navHrs:12,siWks:4, fteMo: 4.5, phase: 2, del: 'Recommendations engine live with 3 criteria designs' },
+    { task: 'Target + AEP real-time profile integration',  navHrs: 14, siWks: 5,  fteMo: 5.0, phase: 2, del: 'AEP audience segments activating in Target real-time' },
     { task: 'Auto-Allocate, Auto-Target & Automated Personalization',navHrs:8,siWks:3,fteMo:4.5,phase:3,del:'ML-powered personalization with statistical baseline' },
   ],
   marketo: [
-    { task: 'Instance audit & deliverability health check', navHrs: 8, siWks: 2,  fteMo: 3.5, phase: 1, del: 'Instance audit report + prioritized remediation plan' },
+    { task: 'Instance audit & deliverability health check', navHrs: 14, siWks: 3, fteMo: 3.5, phase: 1, del: 'Instance audit report + prioritized remediation plan' },
     { task: 'Program template library (email, nurture, event)',navHrs:10,siWks:4, fteMo: 3.5, phase: 1, del: '4 production-ready program templates' },
     { task: 'Smart campaign logic & trigger architecture', navHrs: 8,  siWks: 3,  fteMo: 3.5, phase: 1, del: 'Core nurture campaign live with documented flow logic' },
-    { task: 'Marketo–Salesforce sync audit & field mapping',navHrs:6,  siWks: 2,  fteMo: 3.5, phase: 1, del: 'Sync health report + remediated field mapping' },
+    { task: 'Marketo–Salesforce sync audit & field mapping',navHrs:10, siWks: 3,  fteMo: 3.5, phase: 1, del: 'Sync health report + remediated field mapping' },
     { task: 'Lead scoring model (behavioral + demographic)', navHrs:8, siWks: 3,  fteMo: 4.0, phase: 2, del: 'Scoring model live with threshold-triggered alerts' },
-    { task: 'Revenue Cycle Model & lifecycle stage design', navHrs: 10,siWks: 4,  fteMo: 4.5, phase: 2, del: 'RCM configured with validated stage transitions' },
+    { task: 'Revenue Cycle Model & lifecycle stage design', navHrs: 12,siWks: 4,  fteMo: 4.5, phase: 2, del: 'RCM configured with validated stage transitions' },
   ],
   ajo: [
     { task: 'Journey architecture & channel strategy design',navHrs:8, siWks: 3,  fteMo: 4.5, phase: 1, del: 'Journey architecture document + channel playbook' },
     { task: 'Journey canvas: entry events, waits, splits',  navHrs: 12,siWks: 5,  fteMo: 5.0, phase: 1, del: '2 live journeys (onboarding + re-engagement)' },
-    { task: 'Offer Decisioning — catalog, eligibility, fallbacks',navHrs:12,siWks:5,fteMo:5.0,phase:2,del:'Offer catalog live with decisioning rules validated' },
+    { task: 'Offer Decisioning — catalog, eligibility, fallbacks',navHrs:14,siWks:5,fteMo:5.0,phase:2,del:'Offer catalog live with decisioning rules validated' },
     { task: 'Content templates & personalization expressions',navHrs:8, siWks: 3, fteMo: 4.5, phase: 2, del: '5 reusable templates with dynamic personalization' },
-    { task: 'Multi-channel orchestration (email, push, SMS, in-app)',navHrs:12,siWks:5,fteMo:5.0,phase:2,del:'Multi-channel journey with 3+ active channels' },
+    { task: 'Multi-channel orchestration (email, push, SMS, in-app)',navHrs:14,siWks:5,fteMo:5.0,phase:2,del:'Multi-channel journey with 3+ active channels' },
     { task: 'Journey reporting & Frequency Capping setup', navHrs: 6,  siWks: 2,  fteMo: 4.0, phase: 3, del: 'Journey analytics dashboard + frequency governance rules' },
   ],
   campaign: [
-    { task: 'Campaign instance audit & workflow review',    navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: 'Instance health report + workflow optimization plan' },
+    { task: 'Campaign instance audit & workflow review',    navHrs: 10, siWks: 3,  fteMo: 4.0, phase: 1, del: 'Instance health report + workflow optimization plan' },
     { task: 'Data schema extension & targeting dimension', navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 1, del: 'Extended schema + custom targeting dimensions' },
     { task: 'Delivery template design & typology rules',   navHrs: 8,  siWks: 3,  fteMo: 4.0, phase: 1, del: '5 delivery templates + pressure management rules' },
     { task: 'Campaign–CRM integration (SFDC / MS Dynamics)',navHrs:12, siWks: 5,  fteMo: 5.0, phase: 2, del: 'Validated bi-directional CRM sync with de-dup logic' },
     { task: 'Workflow automation (batch + real-time)',      navHrs: 10, siWks: 4,  fteMo: 4.5, phase: 2, del: '3 production workflows + automated scheduling' },
-    { task: 'Transactional messaging API & real-time triggers',navHrs:10,siWks:4, fteMo: 5.0, phase: 3, del: 'Transactional message API integrated + load tested' },
+    { task: 'Transactional messaging API & real-time triggers',navHrs:12,siWks:4, fteMo: 5.0, phase: 3, del: 'Transactional message API integrated + load tested' },
   ],
 };
 
@@ -3353,7 +3354,7 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
       </div>
     </div>
     <div style="font-size:10px;color:var(--muted);margin-top:12px;line-height:1.6;">
-      SI timelines: Panorama Consulting 2024 · Crafton/Brainvire/40Q Agency 2025 · 47–70% exceed budget (Panorama).
+      SI timelines: Panorama Consulting 2024 · Crafton/Brainvire/40Q Agency 2025 · 54% exceed budget (Panorama 2024); 60–70% fail objectives (Gartner).
       FTE ramp: SHRM 2025 · Focus GTS ROI model. Navigator hours: 40/month guaranteed, expert-level, no discovery overhead.
     </div>`;
 
@@ -3383,7 +3384,7 @@ function exportPDF() {
 
   // ── Navigator cost data ──
   const salary      = d.offeredSalary > 0 ? d.offeredSalary : Math.round((d.benchLow + d.benchHigh) / 2);
-  const year1Hire   = Math.round(salary*1.30 + salary*0.25 + salary/12*3*0.5 + (salary/260)*d.ttf*2.0);
+  const year1Hire   = Math.round(salary*1.35 + salary*0.25 + salary/12*3*0.5 + (salary/260)*d.ttf*2.0);
   const pTool       = d.selected[0]?.tool?.id || 'aem_sites';
   const siD         = SI_PROJECT_COSTS[pTool] || SI_PROJECT_COSTS.aem_sites;
   const recTier     = (d.pct < 45 || d.numTools >= 2 || d.scarcity >= 7) ? NAVIGATOR_TIERS[1] : NAVIGATOR_TIERS[0];

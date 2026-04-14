@@ -1,28 +1,80 @@
 {
-  "refreshed": "2026-04-09T00:00:00.000Z",
-  "source": "initial-research",
+  "refreshed": "2026-04-14T00:00:00.000Z",
+  "source": "research-validated-swarm-2026-04-14",
   "lastCIRun": null,
   "ciStatus": "not-run",
   "avgTimeToFill": 56,
   "marketCondition": "tight",
   "tools": {
-    "aem_sites":  { "activePostings": 1436, "medianSalary5_7yr": 155000, "poolEstimate": 21500, "scarcityTrend": "stable" },
-    "aem_cloud":  { "activePostings": 380,  "medianSalary5_7yr": 172000, "poolEstimate": 4500,  "scarcityTrend": "rising" },
-    "aep":        { "activePostings": 920,  "medianSalary5_7yr": 168000, "poolEstimate": 5000,  "scarcityTrend": "rising" },
-    "analytics":  { "activePostings": 6370, "medianSalary5_7yr": 142000, "poolEstimate": 37500, "scarcityTrend": "stable" },
-    "cja":        { "activePostings": 45,   "medianSalary5_7yr": 158000, "poolEstimate": 2750,  "scarcityTrend": "rising" },
-    "target":     { "activePostings": 421,  "medianSalary5_7yr": 134000, "poolEstimate": 11000, "scarcityTrend": "stable" },
-    "marketo":    { "activePostings": 700,  "medianSalary5_7yr": 104000, "poolEstimate": 55000, "scarcityTrend": "stable" },
-    "ajo":        { "activePostings": 229,  "medianSalary5_7yr": 156000, "poolEstimate": 2000,  "scarcityTrend": "rising" },
-    "campaign":   { "activePostings": 310,  "medianSalary5_7yr": 122000, "poolEstimate": 8000,  "scarcityTrend": "falling" },
-    "aem_dam":    { "activePostings": 290,  "medianSalary5_7yr": 128000, "poolEstimate": 8500,  "scarcityTrend": "stable" }
+    "aem_sites": {
+      "activePostings": 950,
+      "medianSalary5_7yr": 145000,
+      "poolEstimate": 21500,
+      "scarcityTrend": "stable"
+    },
+    "aem_cloud": {
+      "activePostings": 380,
+      "medianSalary5_7yr": 172000,
+      "poolEstimate": 4500,
+      "scarcityTrend": "rising"
+    },
+    "aep": {
+      "activePostings": 600,
+      "medianSalary5_7yr": 168000,
+      "poolEstimate": 5000,
+      "scarcityTrend": "rising"
+    },
+    "analytics": {
+      "activePostings": 6370,
+      "medianSalary5_7yr": 142000,
+      "poolEstimate": 37500,
+      "scarcityTrend": "stable"
+    },
+    "cja": {
+      "activePostings": 45,
+      "medianSalary5_7yr": 158000,
+      "poolEstimate": 2000,
+      "scarcityTrend": "rising"
+    },
+    "target": {
+      "activePostings": 421,
+      "medianSalary5_7yr": 125000,
+      "poolEstimate": 11000,
+      "scarcityTrend": "stable"
+    },
+    "marketo": {
+      "activePostings": 1200,
+      "medianSalary5_7yr": 104000,
+      "poolEstimate": 55000,
+      "scarcityTrend": "stable"
+    },
+    "ajo": {
+      "activePostings": 160,
+      "medianSalary5_7yr": 156000,
+      "poolEstimate": 2000,
+      "scarcityTrend": "rising"
+    },
+    "campaign": {
+      "activePostings": 600,
+      "medianSalary5_7yr": 122000,
+      "poolEstimate": 8000,
+      "scarcityTrend": "falling"
+    },
+    "aem_dam": {
+      "activePostings": 200,
+      "medianSalary5_7yr": 128000,
+      "poolEstimate": 6000,
+      "scarcityTrend": "stable"
+    }
   },
   "sources": [
-    "https://www.ziprecruiter.com",
-    "https://www.glassdoor.com",
     "https://www.linkedin.com/jobs",
+    "https://www.glassdoor.com",
+    "https://www.ziprecruiter.com",
     "https://www.indeed.com",
-    "https://www.talent.com",
-    "https://www.roberthalf.com/us/en/insights/research/2026-salary-guide"
+    "https://www.roberthalf.com/us/en/insights/research/2026-salary-guide",
+    "https://www.shrm.org",
+    "https://crafton.eu/blog/aem-developers-cost-breakdown-how-much-should-you-really-pay-in-2025",
+    "https://www.corporatenavigators.com/articles/recruiting-trends/the-average-time-to-fill-by-industry-in-2024"
   ]
 }
