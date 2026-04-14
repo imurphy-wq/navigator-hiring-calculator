@@ -1492,12 +1492,10 @@
       <div id="deliverySubtitle" class="delivery-subtitle">What gets built — Navigator vs. SI Partner vs. Full-time Hire</div>
     </div>
     <div class="del-tabs">
-      <button class="del-tab active" onclick="switchDelTab('timeline')">Task-by-Task Timeline</button>
-      <button class="del-tab" onclick="switchDelTab('pilot')">40-Hour Pilot Plan</button>
+      <button class="del-tab active" onclick="switchDelTab('pilot')">40-Hour Pilot Plan</button>
       <button class="del-tab" onclick="switchDelTab('roadmap')">6-Month Roadmap</button>
     </div>
-    <div id="delTab-timeline" class="del-tab-content active"></div>
-    <div id="delTab-pilot"    class="del-tab-content"></div>
+    <div id="delTab-pilot"    class="del-tab-content active"></div>
     <div id="delTab-roadmap"  class="del-tab-content"></div>
   </div>
 </div>
@@ -3166,7 +3164,7 @@ function switchDelTab(tabId) {
   const content = document.getElementById('delTab-' + tabId);
   if (content) content.classList.add('active');
   const tabs = document.querySelectorAll('.del-tab');
-  const idx = ['timeline','pilot','roadmap'].indexOf(tabId);
+  const idx = ['pilot','roadmap'].indexOf(tabId);
   if (tabs[idx]) tabs[idx].classList.add('active');
 }
 
@@ -3393,10 +3391,9 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
   delSection.style.display = 'block';
   document.getElementById('deliverySubtitle').textContent =
     (jobTitle ? '"' + jobTitle + '" — ' : '') + 'what gets built: Navigator vs. SI Partner vs. Full-time Hire';
-  document.getElementById('delTab-timeline').innerHTML = timelineHtml;
   document.getElementById('delTab-pilot').innerHTML   = pilotHtml;
   document.getElementById('delTab-roadmap').innerHTML = roadmapHtml;
-  switchDelTab('timeline');
+  switchDelTab('pilot');
   setTimeout(() => delSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300);
 }
 
