@@ -3313,8 +3313,13 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
   tasksSortedByPhase.forEach(t => {
     // Advance month pointer until task fits or we're on the last month
     while (rmIdx < 5 && rmMonths[rmIdx].hrs + t.navHrs > MONTH_BUDGET) rmIdx++;
-    rmMonths[rmIdx].tasks.push(t);
-    rmMonths[rmIdx].hrs += t.navHrs;
+    // Skip task if it would overflow the last month — unless it's the only task in
+    // that month (handles rare oversized tasks that must land somewhere)
+    if (rmMonths[rmIdx].hrs + t.navHrs <= MONTH_BUDGET || rmMonths[rmIdx].tasks.length === 0) {
+      rmMonths[rmIdx].tasks.push(t);
+      rmMonths[rmIdx].hrs += t.navHrs;
+    }
+    // else: task doesn't fit in any remaining month — silently excluded
   });
 
   // Add wrap-up items to Month 6 if it has spare capacity
