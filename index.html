@@ -3442,59 +3442,6 @@ function exportPDF() {
     offeredSalary: d.offeredSalary, benchLow: d.benchLow, benchHigh: d.benchHigh,
     location: d.location, certRequired, siAcceptable, roleType: d.roleType, scarcity: d.scarcity });
 
-  // ── Pilot + Roadmap from TASK_CATALOG ──
-  const toolIds = d.selected.map(s => s.tool.id);
-  const tasks = matchJDToTasks(parsedJDState ? parsedJDState._rawText || '' : '', toolIds);
-
-  // Pilot
-  const phase1 = tasks.filter(t => t.phase === 1);
-  const phase2 = tasks.filter(t => t.phase === 2);
-  let pilotUsed = 0;
-  const weeks = [[],[],[],[]];
-  const weekHrs = [0,0,0,0];
-  const weekCaps = [12,12,10,6];
-  phase1.forEach(t => {
-    if (pilotUsed + t.navHrs <= 40) {
-      const w = weekHrs[0]<weekCaps[0]?0:weekHrs[1]<weekCaps[1]?1:weekHrs[2]<weekCaps[2]?2:3;
-      weeks[w].push(t); weekHrs[w]+=t.navHrs; pilotUsed+=t.navHrs;
-    }
-  });
-  phase2.forEach(t => {
-    if (pilotUsed + t.navHrs <= 40 && weekHrs[3]+t.navHrs<=10) {
-      weeks[3].push(t); weekHrs[3]+=t.navHrs; pilotUsed+=t.navHrs;
-    }
-  });
-
-  const weekLabels = ['Week 1 — Kickoff & Discovery','Week 2 — Foundation Build','Week 3 — Core Deliverables','Week 4 — Wrap-up & Quick Wins'];
-  const pilotCards = weeks.map((wt,i) => {
-    if (!wt.length && !weekHrs[i]) return '';
-    return `<div class="pv-pilot-card pv-avoid-break">
-      <div class="pv-pilot-week">${weekLabels[i]}</div>
-      <div class="pv-pilot-hrs">${weekHrs[i]||'—'} <span>hours</span></div>
-      <ul class="pv-pilot-tasks">
-        ${wt.map(t=>`<li class="pv-pilot-task"><span class="pv-check">✓</span><span><span class="pv-task-name">${t.task}</span><br><span class="pv-task-del">${t.del}</span></span></li>`).join('')}
-      </ul>
-    </div>`;
-  }).join('');
-
-  // Roadmap
-  const allByPhase = [tasks.filter(t=>t.phase===1), tasks.filter(t=>t.phase===2), tasks.filter(t=>t.phase===3)];
-  const months = [
-    {label:'Month 1',phaseLabel:'Foundation',color:'#7c3aed',bg:'#faf5ff',items:allByPhase[0].slice(0,3).map(t=>t.task)},
-    {label:'Month 2',phaseLabel:'Foundation Complete',color:'#7c3aed',bg:'#faf5ff',items:allByPhase[0].slice(3).concat(allByPhase[1].slice(0,1)).map(t=>t.task)},
-    {label:'Month 3',phaseLabel:'Core Build',color:'#2563eb',bg:'#eff6ff',items:allByPhase[1].slice(1,4).map(t=>t.task)},
-    {label:'Month 4',phaseLabel:'Core Complete',color:'#2563eb',bg:'#eff6ff',items:allByPhase[1].slice(4).concat(allByPhase[2].slice(0,1)).map(t=>t.task)},
-    {label:'Month 5',phaseLabel:'Optimization',color:'#15803d',bg:'#f0fdf4',items:allByPhase[2].slice(1,3).map(t=>t.task)},
-    {label:'Month 6',phaseLabel:'Advanced',color:'#15803d',bg:'#f0fdf4',items:allByPhase[2].slice(3).concat(['Stakeholder knowledge transfer','Ongoing governance & optimization']).map(t=>typeof t==='string'?t:t.task)},
-  ];
-  const monthCards = months.map(m=>`
-    <div class="pv-month-card pv-avoid-break" style="border-top-color:${m.color};background:${m.bg};">
-      <div class="pv-month-label">${m.label}</div>
-      <div class="pv-month-phase" style="color:${m.color};">${m.phaseLabel}</div>
-      <div class="pv-month-hrs">40 <span>hrs/mo</span></div>
-      <ul class="pv-month-items">${(m.items.length?m.items:['Platform setup & configuration']).map(i=>`<li class="pv-month-item">${i}</li>`).join('')}</ul>
-    </div>`).join('');
-
   // ── Assemble print view ──
   const ttfRange = `${d.ttf}–${Math.round(d.ttf*1.3)} days`;
   const poolDisp = d.pool > 1000 ? `~${(d.pool/1000).toFixed(1)}K` : `~${d.pool}`;
@@ -3595,58 +3542,6 @@ function exportPDF() {
         <ul class="pv-rec-list">
           ${recs.map(r=>`<li class="pv-rec-item"><span class="pv-rec-arrow">→</span><span>${r}</span></li>`).join('')}
         </ul>
-      </div>
-
-      <!-- PAGE BREAK -->
-      <div class="pv-page-break"></div>
-
-      <!-- SECTION 4: 40-HOUR PILOT -->
-      <div class="pv-header" style="border-color:#16a34a;margin-top:0;padding-top:0;">
-        ${logoSrc ? `<img src="${logoSrc}" class="pv-logo" alt="Navigator by Focus GTS">` : ''}
-        <div>
-          <div class="pv-report-title">Navigator Delivery Plan</div>
-          <div class="pv-report-sub">${d.jobTitle ? d.jobTitle + ' &nbsp;·&nbsp; ' : ''}${toolChips} &nbsp;·&nbsp; ${date}</div>
-        </div>
-      </div>
-      <div class="pv-section">
-        <div class="pv-section-title">40-Hour Pilot Plan — Month 1 Deliverables (Navigator 40)</div>
-        <div class="pv-pilot-grid">${pilotCards}</div>
-        <div style="font-size:8.5pt;color:#5a527a;margin-top:6px;">
-          Navigator 40-hr/month: $10,400/mo · No SOW · No headcount · Cancel anytime ·
-          Same work takes an SI partner 8–14 weeks and a new FTE can't start until month 4+.
-        </div>
-      </div>
-
-      <!-- SECTION 5: 6-MONTH ROADMAP -->
-      <div class="pv-section">
-        <div class="pv-section-title">6-Month Navigator Roadmap</div>
-        <div class="pv-month-grid">${monthCards}</div>
-        <div class="pv-compare-grid pv-avoid-break">
-          <div class="pv-compare-col">
-            <div class="pv-compare-title" style="color:#6d39c4;">Navigator</div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Start date</span><span class="pv-compare-val" style="color:#6d39c4;">Day 3</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">First deliverable</span><span class="pv-compare-val" style="color:#6d39c4;">Week 1</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Total hours</span><span class="pv-compare-val" style="color:#6d39c4;">240 hrs</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Platform live by</span><span class="pv-compare-val" style="color:#6d39c4;">Month 4–5</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Headcount added</span><span class="pv-compare-val" style="color:#6d39c4;">0</span></div>
-          </div>
-          <div class="pv-compare-col">
-            <div class="pv-compare-title" style="color:#b45309;">SI Partner</div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Start date</span><span class="pv-compare-val" style="color:#b45309;">Day 21–35</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">First deliverable</span><span class="pv-compare-val" style="color:#b45309;">Month 2–3</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Typical spend</span><span class="pv-compare-val" style="color:#b45309;">${fmtK(siD.typicalMid)}–${fmtK(siD.typicalHigh)}</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Platform live by</span><span class="pv-compare-val" style="color:#b45309;">Month 6–9</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Budget overrun risk</span><span class="pv-compare-val" style="color:#b45309;">47–70%</span></div>
-          </div>
-          <div class="pv-compare-col">
-            <div class="pv-compare-title" style="color:#5a527a;">Full-time Hire</div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Start date</span><span class="pv-compare-val">Day ${d.ttf}+</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">First deliverable</span><span class="pv-compare-val">Month 4–5</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Year 1 cost</span><span class="pv-compare-val">${fmt(year1Hire)}</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Platform live by</span><span class="pv-compare-val">Month 7+</span></div>
-            <div class="pv-compare-row"><span class="pv-compare-key">Search failure risk</span><span class="pv-compare-val">30–45%</span></div>
-          </div>
-        </div>
       </div>
 
       <!-- FOOTER -->
