@@ -1130,11 +1130,11 @@
   /* ── Print / PDF Export ── */
   #printView { display: none; }
   @media print {
-    @page { size: letter; margin: 0.45in; }
-    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    html, body { background: #fff !important; color: #000 !important; margin: 0 !important; padding: 0 !important; }
+    @page { size: letter; margin: 0.4in; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    html, body { background: #0F172A !important; color: #E2E8F0 !important; margin: 0 !important; padding: 0 !important; }
     body > * { display: none !important; }
-    #printView { display: block !important; background: #fff !important; }
+    #printView { display: block !important; background: #0F172A !important; }
     .pv-avoid-break { page-break-inside: avoid; }
   }
 
@@ -1147,84 +1147,138 @@
   }
   .pdf-export-btn:hover { opacity: 0.88; transform: translateY(-1px); }
 
-  /* ── Print View Styles (pv-*) ── */
+  /* ── Print View Styles (dark mode) ── */
   #printView {
     font-family: 'Space Grotesk', -apple-system, sans-serif;
-    color: #0e0c1f;
-    background: #fff;
+    color: #E2E8F0;
+    background: #0F172A;
     padding: 0;
     max-width: 100%;
     margin: 0;
     font-size: 9.5pt;
-    line-height: 1.4;
+    font-weight: 500;
+    line-height: 1.5;
   }
   .pv-header {
-    display: flex; align-items: center; gap: 12px;
-    padding-bottom: 10px; margin-bottom: 12px;
-    border-bottom: 2px solid #6d39c4;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0 12px; margin-bottom: 16px;
+    border-bottom: 2px solid #7C4FD5;
+    background: linear-gradient(135deg, rgba(124,79,213,0.08) 0%, rgba(58,111,216,0.08) 100%);
+    padding-left: 10px; padding-right: 10px;
+    border-radius: 8px 8px 0 0;
   }
+  .pv-header-left { display: flex; align-items: center; gap: 12px; }
   .pv-logo { height: 28px; width: auto; }
-  .pv-report-title { font-size: 15pt; font-weight: 800; color: #0e0c1f; margin-bottom: 2px; }
-  .pv-report-sub { font-size: 8.5pt; color: #5a527a; }
-  .pv-section { margin-bottom: 12px; }
+  .pv-report-title { font-size: 13pt; font-weight: 800; color: #FFFFFF; margin-bottom: 2px; letter-spacing: -0.3px; }
+  .pv-report-sub { font-size: 8pt; color: #94A3B8; }
+  .pv-header-right { text-align: right; }
+  .pv-header-date { font-size: 7.5pt; color: #94A3B8; }
+  .pv-header-chips { font-size: 8pt; color: #94A3B8; margin-top: 2px; }
+
+  .pv-section { margin-bottom: 16px; }
   .pv-section-title {
-    font-size: 7.5pt; font-weight: 800; letter-spacing: 1px;
-    text-transform: uppercase; color: #5a527a;
-    padding-bottom: 4px; margin-bottom: 8px;
-    border-bottom: 1px solid #d0cde8;
+    font-size: 7.5pt; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #94A3B8;
+    padding-bottom: 5px; margin-bottom: 10px;
+    border-bottom: 1px solid #334155;
   }
-  .pv-analysis-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 16px; align-items: start; }
+
+  /* Posting critique section */
+  .pv-critique-grid { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start; }
+  .pv-score-block {
+    background: #1E293B; border: 1px solid #334155;
+    border-radius: 10px; padding: 12px 10px; text-align: center;
+  }
+  .pv-score-num { font-size: 36pt; font-weight: 900; line-height: 1; margin-bottom: 2px; }
+  .pv-score-label { font-size: 7.5pt; color: #94A3B8; margin-bottom: 6px; }
+  .pv-score-grade { font-size: 14pt; font-weight: 800; }
+  .pv-top-finding {
+    background: rgba(124,79,213,0.12); border: 1px solid rgba(124,79,213,0.3);
+    border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;
+    font-size: 8.5pt; line-height: 1.5; color: #E2E8F0;
+  }
+  .pv-top-finding-label { font-size: 7pt; font-weight: 800; color: #7C4FD5; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .pv-dim-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .pv-dim-name { font-size: 7.5pt; color: #94A3B8; width: 130px; flex-shrink: 0; }
+  .pv-dim-bar-wrap { flex: 1; background: #334155; border-radius: 3px; height: 7px; overflow: hidden; }
+  .pv-dim-bar-fill { height: 7px; border-radius: 3px; }
+  .pv-dim-grade {
+    font-size: 7.5pt; font-weight: 800; width: 20px; text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* Hiring difficulty section */
+  .pv-analysis-grid { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start; }
   .pv-prob-block {
-    background: #f3f2f9; border-radius: 8px; padding: 10px;
-    text-align: center;
+    background: #1E293B; border: 1px solid #334155;
+    border-radius: 10px; padding: 12px 10px; text-align: center;
   }
-  .pv-prob-pct { font-size: 24pt; font-weight: 800; line-height: 1.1; margin-bottom: 2px; }
-  .pv-prob-days { font-size: 8pt; color: #5a527a; margin-bottom: 6px; }
+  .pv-prob-pct { font-size: 26pt; font-weight: 900; line-height: 1.1; margin-bottom: 4px; }
+  .pv-prob-days { font-size: 8pt; color: #94A3B8; margin-bottom: 8px; }
   .pv-tier-badge {
-    display: inline-block; font-size: 8pt; font-weight: 800;
-    padding: 3px 10px; border-radius: 20px; margin-bottom: 4px;
+    display: inline-block; font-size: 7.5pt; font-weight: 800;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 6px;
   }
-  .pv-tier-sub { font-size: 8pt; color: #5a527a; line-height: 1.3; }
+  .pv-tier-sub { font-size: 7.5pt; color: #94A3B8; line-height: 1.4; }
   .pv-stats-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
-  .pv-stats-table tr { border-bottom: 1px solid #e8e7f3; }
-  .pv-stats-table td { padding: 4px 6px; }
-  .pv-stats-table td:first-child { color: #5a527a; }
-  .pv-stats-table td:last-child { font-weight: 700; text-align: right; }
-  .pv-fit-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .pv-fit-badge {
-    font-size: 8pt; font-weight: 800; padding: 3px 10px;
-    border-radius: 4px; white-space: nowrap;
+  .pv-stats-table tr { border-bottom: 1px solid #334155; }
+  .pv-stats-table td { padding: 5px 6px; }
+  .pv-stats-table td:first-child { color: #94A3B8; }
+  .pv-stats-table td:last-child { font-weight: 700; text-align: right; color: #E2E8F0; }
+  .pv-vacancy-card {
+    background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.3);
+    border-radius: 8px; padding: 10px 12px; margin-top: 10px;
+    font-size: 8.5pt; color: #E2E8F0; line-height: 1.5;
   }
-  .pv-fit-reason { font-size: 8.5pt; color: #3a3460; }
-  .pv-cost-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 8.5pt; }
-  .pv-cost-table tr { border-bottom: 1px solid #e8e7f3; }
-  .pv-cost-table td { padding: 5px 5px; vertical-align: middle; }
-  .pv-cost-name { font-weight: 600; width: 36%; }
+  .pv-vacancy-label { font-size: 7pt; font-weight: 800; color: #FBBF24; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .pv-vacancy-daily { font-size: 12pt; font-weight: 800; color: #FBBF24; }
+  .pv-vacancy-total { font-size: 18pt; font-weight: 900; color: #FBBF24; }
+
+  /* Strategic game plan */
+  .pv-rec-list { list-style: none; padding: 0; margin: 0; }
+  .pv-rec-item { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+  .pv-rec-badge {
+    font-size: 6.5pt; font-weight: 800; padding: 2px 7px;
+    border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+    margin-top: 1px; letter-spacing: 0.3px; text-transform: uppercase;
+  }
+  .pv-rec-badge-POSTING_FIX { background: rgba(58,111,216,0.2); color: #60A5FA; }
+  .pv-rec-badge-SEARCH_STRATEGY { background: rgba(74,222,128,0.15); color: #4ADE80; }
+  .pv-rec-badge-COMPENSATION_INSIGHT { background: rgba(251,191,36,0.15); color: #FBBF24; }
+  .pv-rec-badge-TIMELINE_REALITY { background: rgba(148,163,184,0.15); color: #94A3B8; }
+  .pv-rec-badge-RISK_FACTOR { background: rgba(248,113,113,0.15); color: #F87171; }
+  .pv-rec-badge-NAVIGATOR_BRIDGE { background: rgba(124,79,213,0.2); color: #A78BFA; }
+  .pv-rec-text { font-size: 8.5pt; color: #E2E8F0; line-height: 1.5; }
+
+  /* Cost comparison */
+  .pv-cost-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 8.5pt; }
+  .pv-cost-table tr { border-bottom: 1px solid #334155; }
+  .pv-cost-table td { padding: 6px 5px; vertical-align: middle; }
+  .pv-cost-name { font-weight: 600; width: 36%; color: #E2E8F0; }
   .pv-cost-amt { font-weight: 800; text-align: right; white-space: nowrap; width: 22%; }
   .pv-cost-bar-cell { width: 42%; padding-left: 8px !important; }
-  .pv-bar-track { background: #e8e7f3; border-radius: 3px; height: 7px; overflow: hidden; }
-  .pv-bar-fill { height: 7px; border-radius: 3px; }
-  .pv-nav-row td { background: #f0fdf4 !important; }
-  .pv-savings-strip {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-    margin-bottom: 8px;
-  }
+  .pv-bar-track { background: #334155; border-radius: 3px; height: 8px; overflow: hidden; }
+  .pv-bar-fill { height: 8px; border-radius: 3px; }
+  .pv-nav-row td { background: rgba(74,222,128,0.05) !important; }
+  .pv-savings-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
   .pv-saving-card {
-    background: #f3f2f9; border-radius: 6px; padding: 8px 10px;
-    text-align: center;
+    background: #1E293B; border: 1px solid #334155;
+    border-radius: 8px; padding: 8px 10px;
   }
-  .pv-saving-label { font-size: 7.5pt; color: #5a527a; margin-bottom: 2px; }
+  .pv-saving-label { font-size: 7.5pt; color: #94A3B8; margin-bottom: 4px; }
   .pv-saving-val { font-size: 12pt; font-weight: 800; }
-  .pv-time-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-  .pv-time-col { border-radius: 6px; padding: 8px; text-align: center; }
-  .pv-time-head { font-size: 7.5pt; font-weight: 800; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .pv-time-days { font-size: 13pt; font-weight: 800; }
-  .pv-time-sub { font-size: 7.5pt; color: #5a527a; line-height: 1.2; margin-top: 2px; }
-  .pv-rec-list { list-style: none; padding: 0; }
-  .pv-rec-item { display: flex; gap: 8px; padding: 5px 0; border-bottom: 1px solid #e8e7f3; font-size: 8.5pt; }
-  .pv-rec-item:last-child { border-bottom: none; }
-  .pv-rec-arrow { color: #6d39c4; font-weight: 800; flex-shrink: 0; }
-  .pv-footer { font-size: 7pt; color: #8880aa; text-align: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid #d0cde8; }
+  .pv-time-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .pv-time-col { background: #1E293B; border: 1px solid #334155; border-radius: 8px; padding: 8px 10px; text-align: center; }
+  .pv-time-head { font-size: 7.5pt; font-weight: 700; margin-bottom: 4px; }
+  .pv-time-days { font-size: 16pt; font-weight: 900; line-height: 1; margin-bottom: 2px; }
+  .pv-time-sub { font-size: 7pt; color: #94A3B8; line-height: 1.4; }
+
+  .pv-footer {
+    font-size: 7.5pt; color: #475569; text-align: center;
+    padding-top: 10px; margin-top: 14px;
+    border-top: 1px solid #334155;
+    line-height: 1.6;
+  }
 
 </style>
 </head>
@@ -1923,6 +1977,7 @@ function parseJD(rawText) {
     roleType: 'developer',
     certRequired: false,
     siAcceptable: true,
+    companyName: '',
     confidence: 0,
     confidenceFactors: []
   };
@@ -2139,10 +2194,252 @@ function parseJD(rawText) {
   // Title: 10 pts
   if (result.jobTitle) { conf += 10; factors.push(`"${result.jobTitle.slice(0,35)}"`); }
 
+  // ---- Company Name ----
+  // Try "About [Company]", "Join [Company]", "[Company] is hiring", first standalone line
+  let companyName = '';
+  const companyPatterns = [
+    /(?:about|join|at|welcome to|introducing)\s+([A-Z][A-Za-z0-9 &.,'-]{2,40}?)(?:\s*[,.\n]|$)/m,
+    /^([A-Z][A-Za-z0-9 &.,'-]{2,40}?)\s+is\s+(?:a |an |the |hiring|looking|seeking)/m,
+    /([A-Z][A-Za-z0-9 &.,'-]{2,40}?)\s+(?:is hiring|is looking for|is seeking|invites applications)/i,
+  ];
+  for (const cp of companyPatterns) {
+    const cm = t.match(cp);
+    if (cm && cm[1]) {
+      const candidate = cm[1].trim().replace(/[,.]$/, '');
+      // Filter out job-title words that aren't company names
+      const notCompany = /\b(senior|junior|lead|staff|principal|adobe|experience|manager|engineer|architect|developer|analyst|specialist)\b/i;
+      if (candidate.length >= 3 && candidate.length <= 50 && !notCompany.test(candidate)) {
+        companyName = candidate;
+        break;
+      }
+    }
+  }
+  // Fallback: check for @company.com email domain
+  if (!companyName) {
+    const emailMatch = t.match(/@([a-z0-9-]+)\.[a-z]{2,}/i);
+    if (emailMatch && !['gmail','yahoo','outlook','hotmail','aol'].includes(emailMatch[1].toLowerCase())) {
+      companyName = emailMatch[1].charAt(0).toUpperCase() + emailMatch[1].slice(1);
+    }
+  }
+  result.companyName = companyName;
+
   result.confidence = Math.min(conf, 100);
   result.confidenceFactors = factors;
 
   return result;
+}
+
+// ============================================================
+// JOB POSTING QUALITY ANALYSIS
+// ============================================================
+function analyzePostingQuality(parsedJD, rawText, benchLow, benchHigh) {
+  const tl = rawText.toLowerCase();
+  const words = rawText.trim().split(/\s+/).length;
+  const lines = rawText.split('\n');
+
+  function countBullets(text) {
+    return (text.match(/^\s*[•\-\*\d]+[.)]\s+/gm) || []).length;
+  }
+
+  function hasHeaders(text) {
+    return (text.match(/^[A-Z][A-Za-z ]{3,40}:$/gm) || []).length >= 2 ||
+           (text.match(/^[A-Z ]{4,40}$/gm) || []).length >= 2;
+  }
+
+  const benchMid = benchLow > 0 && benchHigh > 0 ? Math.round((benchLow + benchHigh) / 2) : 0;
+  const benchLowK = Math.round(benchLow / 1000);
+  const benchHighK = Math.round(benchHigh / 1000);
+
+  const dimensions = [];
+
+  // ── 1. Compensation Transparency (20 pts) ────────────────────────────────
+  {
+    const hasDollar = /\$\d{2,3}[,k]/i.test(rawText) || /\d{3},\d{3}/.test(rawText);
+    const hasSalaryRange = /\$[\d,k]+\s*[-\u2013]\s*\$?[\d,k]+/i.test(rawText);
+    const hasCompetitive = /competitive|commensurate|doe|depending on experience/i.test(tl);
+    let score, grade, finding;
+    if (hasSalaryRange) {
+      const rangeMatch = rawText.match(/\$([\d,]+)[kK]?\s*[-\u2013]\s*\$?([\d,]+)[kK]?/);
+      let spread = 0;
+      if (rangeMatch) {
+        const lo = parseFloat(rangeMatch[1].replace(/,/g,'')) * (rangeMatch[1].includes('K') || rangeMatch[0].toLowerCase().includes('k') ? 1000 : 1);
+        const hi = parseFloat(rangeMatch[2].replace(/,/g,'')) * (rangeMatch[2].includes('K') || rangeMatch[0].toLowerCase().includes('k') ? 1000 : 1);
+        if (hi > 0) spread = (hi - lo) / lo;
+      }
+      if (spread <= 0.20) {
+        score = 20; grade = 'A';
+        finding = 'Salary range is published and tight. This is best practice \u2014 it attracts candidates who are a fit and filters out those who are not.';
+      } else {
+        score = 15; grade = 'B';
+        finding = 'Salary range is published but the spread is wider than 20%. Narrowing the range signals clearer budget alignment and reduces negotiation friction.';
+      }
+    } else if (hasCompetitive) {
+      score = 10; grade = 'C';
+      finding = benchMid > 0
+        ? '"Competitive compensation" without a number is rejected by most passive candidates. The market benchmark for this profile is $' + benchLowK + 'K\u2013$' + benchHighK + 'K. Listing that range would expand your qualified applicant pool by an estimated 30\u201350% (SHRM 2025).'
+        : '"Competitive compensation" without a range is skipped by 82% of qualified candidates (SHRM 2025). Publish a specific range to drive more qualified applications.';
+    } else if (hasDollar) {
+      score = 15; grade = 'B';
+      finding = 'Compensation information is present. Ensure it is formatted as a clear range (e.g., "$140K\u2013$170K") for maximum candidate response rate.';
+    } else {
+      score = 5; grade = 'D';
+      finding = benchMid > 0
+        ? 'No salary range is listed. SHRM data shows 82% of qualified candidates skip postings without pay transparency. The market benchmark for this profile is $' + benchLowK + 'K\u2013$' + benchHighK + 'K. Add that range to immediately expand your qualified applicant pool.'
+        : 'No salary range is listed. SHRM data shows 82% of qualified candidates skip postings without pay transparency. Adding a salary range typically increases qualified applications by 30\u201350%.';
+    }
+    dimensions.push({ name: 'Compensation Transparency', score, maxScore: 20, grade, finding, impact: score < 10 ? 'high' : 'medium', quickFix: score < 20 });
+  }
+
+  // ── 2. Requirements Realism (20 pts) ──────────────────────────────────────
+  {
+    const bulletCount = countBullets(rawText);
+    const reqSection = rawText.match(/(?:requirements?|qualifications?|must have)[:\s\n]+([\s\S]{50,1000}?)(?:\n\n|\n[A-Z])/i);
+    const reqBullets = reqSection ? countBullets(reqSection[1]) : bulletCount;
+    const hasPrefSection = /preferred|nice to have|bonus/i.test(rawText);
+    let score, grade, finding;
+    if (reqBullets <= 8 && hasPrefSection) {
+      score = 20; grade = 'A';
+      finding = reqBullets + ' must-have requirements with a clear preferred section. This is the optimal structure \u2014 specific enough to filter, open enough to attract.';
+    } else if (reqBullets <= 12) {
+      score = 15; grade = 'B';
+      finding = reqBullets + ' requirements listed. ' + (hasPrefSection ? 'Some' : 'No') + ' required/preferred separation. Cutting to 8\u201310 core must-haves and moving the rest to preferred typically increases qualified applications by 20\u201330%.';
+    } else if (reqBullets <= 15) {
+      score = 10; grade = 'C';
+      const poolNote = parsedJD.tools.length >= 2 ? ' Combined with ' + parsedJD.tools.length + ' required Adobe tools, this narrows your effective talent pool significantly.' : '';
+      finding = 'This posting lists ' + reqBullets + ' requirements.' + poolNote + ' Research shows postings with more than 10 requirements see a 30% drop in qualified applications. Cut to 8\u201310 must-haves.';
+    } else if (reqBullets <= 20) {
+      score = 5; grade = 'D';
+      finding = 'This posting lists ' + reqBullets + ' must-have requirements. That is a unicorn posting. The intersection of all these requirements likely represents fewer than a few hundred professionals in the US. Cut to 8 true must-haves \u2014 everything else is a preferred.';
+    } else {
+      score = 0; grade = 'F';
+      finding = reqBullets + '+ requirements listed. This posting will not fill. No professional matching all requirements exists at this combination. Restructure: 5\u20138 absolute must-haves, everything else preferred.';
+    }
+    dimensions.push({ name: 'Requirements Realism', score, maxScore: 20, grade, finding, impact: score < 10 ? 'high' : 'medium', quickFix: false });
+  }
+
+  // ── 3. Role Clarity (15 pts) ──────────────────────────────────────────────
+  {
+    const roleMix = ['developer', 'architect', 'admin', 'manager', 'analyst', 'consultant', 'strategist']
+      .filter(r => tl.includes(r)).length;
+    const hasDeliverables = /you will|responsible for|own|build|lead|deliver|manage/i.test(rawText);
+    const hasReporting = /report to|reporting to|reports to/i.test(tl);
+    let score, grade, finding;
+    if (roleMix <= 1 && hasDeliverables) {
+      score = 15; grade = 'A';
+      finding = 'Clear single-role focus with specific deliverables. Candidates know exactly what success looks like in this role.';
+    } else if (roleMix <= 2 && hasDeliverables) {
+      score = 11; grade = 'B';
+      finding = 'Role scope is mostly clear. ' + (hasReporting ? 'Reporting structure defined.' : 'Adding a reporting structure line ("Reports to Director of Digital Experience") would reduce ambiguity.');
+    } else if (roleMix >= 3) {
+      score = 8; grade = 'C';
+      const roles = ['developer', 'architect', 'admin', 'manager', 'analyst'].filter(r => tl.includes(r)).join(', ');
+      finding = 'This posting mixes ' + roles + ' responsibilities. Candidates who excel at architecture rarely want daily admin tasks. This scope ambiguity splits an already thin talent pool further. Consider whether this is one role or two.';
+    } else {
+      score = 4; grade = 'D';
+      finding = 'Role responsibilities are vague. Candidates want to know what they will actually build, own, and deliver. Replace generic language with specific outcomes ("own the AEM component library", "lead Web SDK migration").';
+    }
+    dimensions.push({ name: 'Role Clarity', score, maxScore: 15, grade, finding, impact: 'medium', quickFix: false });
+  }
+
+  // ── 4. Adobe Stack Specificity (15 pts) ──────────────────────────────────
+  {
+    const specificTerms = ['web sdk', 'at.js', 'appmeasurement', 'aemaacs', 'edge delivery', 'analysis workspace',
+      'real-time cdp', 'xdm schema', 'launch', 'tags', 'osgi', 'sling', 'htl', 'react', 'graphql',
+      'marketo engage', 'smart campaign', 'engagement studio', 'ajo', 'journey optimizer'];
+    const specificCount = specificTerms.filter(t => tl.includes(t)).length;
+    const genericTerms = ['adobe experience cloud', 'marketing technology', 'martech', 'digital marketing platform'];
+    const genericCount = genericTerms.filter(t => tl.includes(t)).length;
+    let score, grade, finding;
+    if (specificCount >= 4) {
+      score = 15; grade = 'A';
+      finding = 'Strong technical specificity \u2014 ' + specificCount + ' feature-level Adobe terms detected. This signals to specialists exactly what they would work on, attracting practitioners over generalists.';
+    } else if (specificCount >= 2) {
+      score = 11; grade = 'B';
+      finding = 'Some technical specificity (' + specificCount + ' specific terms). Adding feature-level details like "Web SDK migration", "AEMaaCS with Edge Delivery Services", or "CJA Analysis Workspace" signals seniority requirements more clearly.';
+    } else if (specificCount === 1 || genericCount === 0) {
+      score = 8; grade = 'C';
+      finding = 'Adobe tools are named but not described at a feature level. Senior practitioners want to know whether this is greenfield or legacy migration, which specific capabilities are in scope, and the maturity of the current implementation.';
+    } else {
+      score = 4; grade = 'D';
+      finding = 'Generic "Adobe Experience Cloud" language will attract consultants and generalists, not deep specialists. Name the specific tools and the specific work (implementation, migration, optimization, architecture).';
+    }
+    dimensions.push({ name: 'Adobe Stack Specificity', score, maxScore: 15, grade, finding, impact: specificCount < 2 ? 'medium' : 'low', quickFix: true });
+  }
+
+  // ── 5. Competitive Positioning (15 pts) ──────────────────────────────────
+  {
+    const sellingSignals = ["you'll", "opportunity to", "our team", "culture", "growth", "impact",
+      "innovation", "we offer", "benefits include", "mission", "flexible", "remote", "hybrid",
+      "equity", "rsu", "bonus", "401k", "learning", "conference", "certification"];
+    const sellingCount = sellingSignals.filter(s => tl.includes(s)).length;
+    let score, grade, finding;
+    if (sellingCount >= 6) {
+      score = 15; grade = 'A';
+      finding = 'Good balance of requirements and value proposition. Passive candidates need a reason to leave a stable position \u2014 this posting provides that context.';
+    } else if (sellingCount >= 3) {
+      score = 11; grade = 'B';
+      finding = 'Some selling points present. Adding specifics about the technical challenge ("greenfield AEP implementation") or team impact ("you will own the entire data layer") makes the role more compelling to passive candidates.';
+    } else if (sellingCount >= 1) {
+      score = 8; grade = 'C';
+      finding = 'This posting is primarily requirements-focused. Top Adobe talent at this seniority level has options. Without a compelling reason to engage, passive candidates will not respond to outreach.';
+    } else {
+      score = 4; grade = 'D';
+      finding = 'No selling language detected. This posting reads as a compliance document, not an opportunity. At a scarcity level where candidates are fully employed and not looking, the posting needs to do sales work.';
+    }
+    dimensions.push({ name: 'Competitive Positioning', score, maxScore: 15, grade, finding, impact: sellingCount < 3 ? 'medium' : 'low', quickFix: false });
+  }
+
+  // ── 6. Posting Structure & Length (15 pts) ────────────────────────────────
+  {
+    let score, grade, finding;
+    const hasStructure = hasHeaders(rawText);
+    if (words >= 300 && words <= 700 && hasStructure) {
+      score = 15; grade = 'A';
+      finding = 'At ' + words + ' words with clear section headers, this posting is in the optimal range. LinkedIn data shows postings between 300\u2013700 words receive 8.4% more applications per view.';
+    } else if (words >= 200 && words <= 1000) {
+      score = 11; grade = 'B';
+      finding = 'At ' + words + ' words, this posting is ' + (words > 700 ? 'slightly long' : 'slightly short') + '. ' + (hasStructure ? 'Section headers help readability.' : 'Adding section headers (Requirements, Responsibilities, What We Offer) would improve scannability.') + ' Optimal length is 300\u2013700 words.';
+    } else if (words > 1000) {
+      score = 8; grade = 'C';
+      finding = 'At ' + words + ' words, this posting is ' + Math.round(words / 500) + 'x the optimal length. LinkedIn data shows postings over 1,000 words receive fewer applications per view. Cut generic company boilerplate and redundant requirements.';
+    } else {
+      score = 4; grade = 'D';
+      finding = 'At ' + words + ' words, this posting is too brief to provide context. Senior candidates need enough information to self-qualify. Add section headers for Requirements, Responsibilities, and Compensation.';
+    }
+    dimensions.push({ name: 'Posting Structure', score, maxScore: 15, grade, finding, impact: words > 1200 ? 'medium' : 'low', quickFix: words > 1000 });
+  }
+
+  // ── Overall ─────────────────────────────────────────────────────────────
+  const overallScore = dimensions.reduce((s, d) => s + d.score, 0);
+  let overallGrade;
+  if (overallScore >= 90) overallGrade = 'A+';
+  else if (overallScore >= 80) overallGrade = 'A';
+  else if (overallScore >= 70) overallGrade = 'B+';
+  else if (overallScore >= 60) overallGrade = 'B';
+  else if (overallScore >= 50) overallGrade = 'C+';
+  else if (overallScore >= 40) overallGrade = 'C';
+  else if (overallScore >= 30) overallGrade = 'D';
+  else overallGrade = 'F';
+
+  const topIssueDim = [...dimensions].sort((a, b) => (b.maxScore - b.score) - (a.maxScore - a.score))[0];
+
+  let poolImpact = 0;
+  if (dimensions[0].score < 10) poolImpact -= 35;
+  if (dimensions[1].score < 10) poolImpact -= 25;
+  if (dimensions[4].score < 8) poolImpact -= 15;
+  const estimatedPoolImpact = poolImpact < 0 ? poolImpact + '%' : 'Minimal';
+
+  const improvementPlan = dimensions
+    .filter(d => d.score < d.maxScore)
+    .sort((a, b) => (b.maxScore - b.score) - (a.maxScore - a.score))
+    .slice(0, 3)
+    .map(d => ({
+      action: d.finding.split('.')[0] + '.',
+      effort: d.quickFix ? 'quick' : 'medium',
+      impact: d.impact
+    }));
+
+  return { overallScore, overallGrade, dimensions, topIssue: topIssueDim.finding, estimatedPoolImpact, improvementPlan };
 }
 
 // State for parsed JD tools (so calculate() can use them)
@@ -2152,6 +2449,7 @@ function clearJDParse() {
   document.getElementById('parsedPreview').style.display = 'none';
   document.getElementById('parseConfidence').innerHTML = '';
   parsedJDState = null;
+  window._postingAnalysis = null;
 }
 
 function parseAndCalculate() {
@@ -2164,6 +2462,11 @@ function parseAndCalculate() {
   const parsed = parseJD(text);
   parsedJDState = parsed;
   parsedJDState._rawText = text; // retain for delivery analysis
+
+  // Run posting quality analysis
+  parsedJDState.postingAnalysis = analyzePostingQuality(parsed, text,
+    parsed.salaryLow || 0, parsed.salaryHigh || 0);
+  window._postingAnalysis = parsedJDState.postingAnalysis;
 
   // Show confidence
   const confColor = parsed.confidence >= 70 ? '#2ecc71' : parsed.confidence >= 40 ? '#f39c12' : '#e03040';
@@ -2593,7 +2896,24 @@ function renderResults({ prob, pool, ttf, salRange, scarcity, selected, numTools
   const scarColor = scarcity >= 8.5 ? '#e03040' : scarcity >= 6.5 ? '#e67e22' : scarcity >= 4.5 ? '#f39c12' : '#2ecc71';
 
   // Recommendations
-  const recs = buildRecs({ prob, selected, numTools, offeredSalary, benchLow, benchHigh, location, certRequired, siAcceptable, roleType, scarcity, ttf, salRange });
+  // Vacancy cost calculation
+  const sal = offeredSalary > 0 ? offeredSalary : Math.round((benchLow + benchHigh) / 2);
+  const dailyVacancyCost = Math.round((sal / 260) * 2.0);
+  const totalVacancyCost = dailyVacancyCost * ttf;
+  const vacancyCostHtml = sal > 0 ? `
+    <div style="border:1px solid #f59e0b;border-radius:8px;padding:12px 14px;margin:12px 0;background:rgba(245,158,11,0.08);">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#f59e0b;margin-bottom:6px;">Vacancy Cost</div>
+      <div style="font-size:11px;color:#e2e8f0;line-height:1.5;">
+        Every day this role sits open costs an estimated
+        <strong style="color:#fbbf24;font-size:13px;">$${dailyVacancyCost.toLocaleString()}</strong>
+        in lost productivity.
+        At the expected ${ttf}-day time-to-fill, that is
+        <strong style="color:#fbbf24;font-size:15px;">$${Math.round(totalVacancyCost/1000)}K</strong>
+        before your new hire completes a single deliverable.
+      </div>
+    </div>` : '';
+
+  const recs = buildRecs({ prob, selected, numTools, offeredSalary, benchLow, benchHigh, location, certRequired, siAcceptable, roleType, scarcity, ttf, salRange, postingAnalysis: parsedJDState ? parsedJDState.postingAnalysis || null : null });
 
   // Tool chips
   const chips = selected.map(({ tool, tier: t }) => `<span class="chip">${tool.name} · ${t}yr</span>`).join('');
@@ -2641,6 +2961,7 @@ function renderResults({ prob, pool, ttf, salRange, scarcity, selected, numTools
       <div class="stat-row"><span class="stat-key">Salary Benchmark</span><span class="stat-val">${salRange}</span></div>
       ${salaryCompare}
     </div>
+    ${vacancyCostHtml}
     <button class="see-analysis-btn" onclick="document.getElementById('analysisDashboard').scrollIntoView({behavior:'smooth',block:'start'})">
       See Full Analysis &amp; Navigator Comparison ↓
     </button>
@@ -2685,7 +3006,7 @@ function renderResults({ prob, pool, ttf, salRange, scarcity, selected, numTools
     </div>
     <div class="recs">
       <div class="recs-title">Strategic Recommendations</div>
-      ${recs.map(r => `<div class="rec-item"><span class="bullet">→</span><span>${r}</span></div>`).join('')}
+      ${recs.map(r => `<div class="rec-item"><span class="bullet">→</span><span>${typeof r === 'string' ? r : r.text}</span></div>`).join('')}
     </div>
   `;
 
@@ -2716,7 +3037,8 @@ function renderResults({ prob, pool, ttf, salRange, scarcity, selected, numTools
   window._printData = { prob, pct, pctLow, pctHigh, tier, tierTag, tierSub, color,
     pool, ttf, salRange, scarcity, selected, numTools, timeline, roleType,
     location, jobTitle, offeredSalary, benchLow, benchHigh,
-    demandRatio, recs, chips };
+    demandRatio, recs, chips,
+    postingAnalysis: parsedJDState ? parsedJDState.postingAnalysis || null : null };
 }
 
 // ============================================================
@@ -3069,99 +3391,125 @@ function collapseAnalysis() {
   document.getElementById('resultsContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function buildRecs({ prob, selected, numTools, offeredSalary, benchLow, benchHigh, location, certRequired, siAcceptable, roleType, scarcity, ttf, salRange }) {
+function buildRecs({ prob, selected, numTools, offeredSalary, benchLow, benchHigh, location, certRequired, siAcceptable, roleType, scarcity, ttf, salRange, postingAnalysis }) {
   const recs = [];
-  const salMult = getSalaryMult(offeredSalary, benchLow, benchHigh);
   const benchMid = (benchLow + benchHigh) / 2;
-
-  if (numTools >= 3) {
-    recs.push('With ' + numTools + ' required tools, your pool is very narrow. Consider splitting into 2 roles or accepting strong depth in 2 tools + ramp on the third.');
-  }
-
-  if (offeredSalary > 0 && salMult < 1.0 && scarcity >= 7) {
-    const target = Math.round(benchMid * 1.20 / 1000) * 1000;
-    recs.push(`Your offered salary is below the benchmark for this scarcity level. At minimum $${target.toLocaleString()} (20% above mid-market) is needed to attract passive candidates at this tier.`);
-  }
-
-  if (offeredSalary > 0 && salMult < 0.70) {
-    const pctBelow = Math.round((1 - offeredSalary / benchMid) * 100);
-    const salRangeStr = salRange || `$${Math.round(benchLow/1000)}K\u2013$${Math.round(benchHigh/1000)}K`;
-    const lowEnd = salRangeStr.split(/\u2013|-/)[0].trim();
-    recs.push(`Offered salary is ${pctBelow}% below the ${salRangeStr} market range for this profile. Options: (1) Add signing bonus $15K\u2013$25K to bridge the gap without affecting base band, (2) Offer fully remote to expand the accessible pool by ~35%, (3) Split the role \u2014 hire a mid-level practitioner at ${lowEnd} and supplement with Navigator for senior-level deliverables.`);
-  }
-
-  if (!siAcceptable && scarcity >= 7) {
-    recs.push('Excluding SI/agency candidates removes 40–60% of the senior pool. Most 5–7yr+ specialists in CJA, AEP, and AEMaaCS come from consulting backgrounds.');
-  }
-
-  if (certRequired) {
-    recs.push('Requiring certification cuts your reachable pool by ~45%. Consider treating it as preferred rather than required — many top performers are uncertified.');
-  }
-
-  if (location !== 'remote' && scarcity >= 8) {
-    recs.push('For high-scarcity roles, going fully remote expands your accessible pool by ~35% and reduces time-to-fill significantly.');
-  }
-
-  if (roleType === 'architect' && scarcity >= 8) {
-    recs.push('Architect-level candidates are rarely active job seekers. Budget for a retained search or warm-network recruiter with Adobe ecosystem connections.');
-  }
-
-  if (selected.some(s => s.tool.id === 'cja' || s.tool.id === 'ajo') && selected.some(s => s.tier === '8+')) {
-    recs.push('CJA and AJO did not reach GA until 2020–2021. "8+ years" is structurally impossible. Set maximum to 5–7yr or evaluate AA/AEP depth instead.');
-  }
-
-  if (selected.some(s => s.tool.id === 'aem_cloud') && selected.some(s => ['5-7','8+'].includes(s.tier))) {
-    recs.push('AEMaaCS launched for widespread adoption ~2020. Senior candidates will have mixed AEM On-Premise/AMS + Cloud Service backgrounds — evaluate cloud migration experience, not cloud-native only.');
-  }
-
-  // Research-backed: where multi-tool talent lives
-  if (numTools >= 2 && scarcity >= 6) {
-    recs.push('65%+ of senior multi-tool Adobe talent sits inside SIs (Accenture, Deloitte Digital, Capgemini, Blue Acorn iCi). Target practitioners 12–24 months post-SI who are already at a brand — they have fresh multi-tool exposure and are often dissatisfied with the slower pace.');
-  }
-
-  // What moves them
-  if (scarcity >= 7) {
-    recs.push('Passive candidates at this tier are moved by: (1) 20–35% total comp increase, (2) "build from scratch" framing vs. maintenance, (3) title step-up (Senior Consultant → Director/VP), or (4) meaningful equity/RSUs. Base salary alone rarely closes the deal.');
-  }
-
-  if (prob >= 0.65) {
-    recs.push('Strong hiring conditions. Post on LinkedIn, target Adobe Experience League community, Adobe Champion program, and Adobe Summit attendee networks.');
-  }
-
-  if (prob < 0.20) {
-    recs.push('Below 20% probability: contract through a specialized Adobe SI (Deloitte Digital, Slalom, Adswerve, Blue Acorn iCi) for the implementation while running a parallel 6-month hire search. This is the most realistic path.');
-  }
-
-  // Tool-specific sourcing recs
+  const sal = offeredSalary > 0 ? offeredSalary : Math.round(benchMid);
+  const salMult = getSalaryMult(offeredSalary, benchLow, benchHigh);
+  const adjTTF = ttf || 90;
   const toolIds = selected.map(s => s.tool.id);
+  const coreCount = selected.filter(s => s.required !== false).length || selected.length;
+  const dailyVacancy = Math.round((sal / 260) * 2.0);
+  const totalVacancy = dailyVacancy * adjTTF;
+  const year1Hire = Math.round(sal * 1.35 + sal * 0.25 + sal / 12 * 3 * 0.5 + (sal / 260) * adjTTF * 2.0);
+
+  // ── CATEGORY: POSTING FIX (from postingAnalysis if available) ──────────────
+  if (postingAnalysis) {
+    const topIssue = postingAnalysis.dimensions
+      .filter(d => d.grade === 'D' || d.grade === 'F')
+      .sort((a, b) => (b.maxScore - b.score) - (a.maxScore - a.score))[0];
+    if (topIssue) {
+      recs.push({ category: 'POSTING FIX', text: topIssue.finding, impact: 'high' });
+    }
+    // Requirements realism fix if score is C or worse
+    const reqDim = postingAnalysis.dimensions.find(d => d.name === 'Requirements Realism');
+    if (reqDim && (reqDim.grade === 'C' || reqDim.grade === 'D' || reqDim.grade === 'F') && !topIssue) {
+      recs.push({ category: 'POSTING FIX', text: reqDim.finding, impact: 'high' });
+    }
+  }
+
+  // ── CATEGORY: SEARCH STRATEGY ──────────────────────────────────────────────
+  if (scarcity >= 8.5) {
+    const poolDisp = selected[0] ? `~${Math.round((benchLow > 0 ? 200 : 150))}` : '200';
+    recs.push({ category: 'SEARCH STRATEGY', impact: 'high',
+      text: `At a ${scarcity.toFixed(1)}/10 scarcity score, this role will not fill through job boards. The qualified pool is critically thin — budget for a specialized Adobe ecosystem recruiter ($35K–$45K fee at this salary range) or shift to a proactive LinkedIn outreach campaign targeting current practitioners at Fortune 500 brands.` });
+  } else if (scarcity >= 7) {
+    recs.push({ category: 'SEARCH STRATEGY', impact: 'high',
+      text: `At a ${scarcity.toFixed(1)}/10 scarcity score, passive sourcing is required. Job boards will return under-qualified candidates. Target practitioners at Adobe SI partners (Accenture Song, Deloitte Digital, Adswerve) with 12–24 months post-SI brand-side experience — they have fresh hands-on depth and are often ready for a change.` });
+  } else if (numTools >= 2) {
+    recs.push({ category: 'SEARCH STRATEGY', impact: 'medium',
+      text: `65% or more of senior multi-tool Adobe talent sits inside SI firms. Target practitioners with 12–24 months post-SI experience — they have hands-on multi-tool depth and typically want brand-side stability.` });
+  }
+
+  // Tool-specific sourcing
   if (toolIds.includes('target')) {
-    recs.push('Adobe Target specialists often come from experimentation agencies (Conversion Rate Experts, Brooks Bell, Blast Analytics). Contract-to-hire from these firms is a faster path than a cold search.');
+    recs.push({ category: 'SEARCH STRATEGY', impact: 'medium',
+      text: `Adobe Target specialists concentrate at experimentation agencies (Brooks Bell, Blast Analytics, Conversion Rate Experts). Contract-to-hire from these firms is a faster path than a cold open search.` });
   }
   if (toolIds.includes('aep') || toolIds.includes('cja')) {
-    recs.push('AEP/CJA practitioners are concentrated at Accenture Song, Deloitte Digital, Adswerve, and MightyHive. Target practitioners 18\u201336 months post-SI \u2014 they have hands-on experience and often want brand-side roles.');
+    recs.push({ category: 'SEARCH STRATEGY', impact: 'medium',
+      text: `AEP and CJA practitioners are concentrated at Accenture Song, Deloitte Digital, Adswerve, and MightyHive. Target practitioners 18–36 months post-SI — they have hands-on experience and often want brand-side roles.` });
   }
   if (toolIds.includes('marketo')) {
-    recs.push('Marketo Champions (champions.marketo.com) and the Fearless50 community are the highest-density sourcing channels for senior Marketo talent. Many top Marketo practitioners are freelance-first and open to fractional arrangements.');
+    recs.push({ category: 'SEARCH STRATEGY', impact: 'medium',
+      text: `Marketo Champions (champions.marketo.com) and the Fearless50 community are the highest-density sourcing channels for senior Marketo talent. Many top practitioners prefer fractional arrangements — test that framing before requiring full-time.` });
   }
   if (toolIds.includes('aem_sites') || toolIds.includes('aem_cloud')) {
-    recs.push('Senior AEM talent concentrates in Adobe partner ecosystem firms (DEPT, Razorfish, WPP studios). Boolean search: "AEM OR Adobe Experience Manager" + "React OR Angular" + "OSGi" yields a more precise pool than title search alone.');
+    recs.push({ category: 'SEARCH STRATEGY', impact: 'medium',
+      text: `Senior AEM talent concentrates in Adobe partner firms (DEPT, Razorfish, WPP studios). Boolean search: "AEM OR Adobe Experience Manager" + "React OR Angular" + "OSGi OR Sling" yields a more precise pool than title search alone.` });
   }
 
-  // Navigator pitch
+  // ── CATEGORY: COMPENSATION INSIGHT ─────────────────────────────────────────
+  if (offeredSalary > 0 && salMult < 1.0) {
+    const pctBelow = Math.round((1 - offeredSalary / benchMid) * 100);
+    const targetSal = Math.round(benchMid * 1.15 / 5000) * 5;
+    if (salMult < 0.70) {
+      recs.push({ category: 'COMPENSATION INSIGHT', impact: 'high',
+        text: `Your offered salary sits ${pctBelow}% below the ${salRange} market benchmark for this profile. At this gap, expect 40–60% fewer qualified candidates to engage and a 35% longer fill time. Moving to $${targetSal}K closes the gap to within 15% of market — the threshold where passive candidates typically engage.` });
+    } else {
+      recs.push({ category: 'COMPENSATION INSIGHT', impact: 'medium',
+        text: `Your offered salary is ${pctBelow}% below the ${salRange} market benchmark. At below-market compensation with a ${scarcity.toFixed(1)}/10 scarcity score, expect 25–40% fewer candidates to engage. Options: (1) add a signing bonus of $15K–$20K to bridge without affecting base band, (2) offer fully remote to expand your accessible pool by 30–35%.` });
+    }
+  } else if (offeredSalary === 0 && benchMid > 0) {
+    recs.push({ category: 'COMPENSATION INSIGHT', impact: 'medium',
+      text: `Market benchmark for this profile is ${salRange}. Publishing the salary range in the job posting expands qualified applicant volume by an estimated 30–50% — SHRM data shows 82% of qualified candidates skip postings without pay transparency.` });
+  }
+
+  // ── CATEGORY: TIMELINE REALITY ─────────────────────────────────────────────
+  recs.push({ category: 'TIMELINE REALITY', impact: 'medium',
+    text: `At current market conditions, expect ${adjTTF}–${Math.round(adjTTF * 1.3)} days to fill this role. Every day it sits open costs an estimated $${dailyVacancy.toLocaleString()} in lost productivity. At the expected fill date, that totals $${Math.round(totalVacancy / 1000)}K before your new hire writes a single line of code.` });
+
+  // ── CATEGORY: RISK FACTOR ───────────────────────────────────────────────────
+  if (selected.some(s => s.tool.id === 'cja' || s.tool.id === 'ajo') && selected.some(s => s.tier === '8+')) {
+    recs.push({ category: 'RISK FACTOR', impact: 'high',
+      text: `CJA and AJO reached GA in 2020–2021. Requiring 8+ years is structurally impossible — no practitioner has 8 years of hands-on experience with these tools. Set the requirement to 5–7 years maximum or evaluate depth in the predecessor tools (AA, AEP, Campaign).` });
+  }
+  if (toolIds.includes('aem_sites') || toolIds.includes('aem_cloud')) {
+    recs.push({ category: 'RISK FACTOR', impact: 'high',
+      text: `AEM 6.5 Managed Services support ends August 31, 2026. On-prem core support ends February 2027. If this hire is tied to a cloud migration, a ${adjTTF}-day search puts you close to that deadline with no margin for a bad hire. Start parallel execution now rather than waiting for the new hire to land.` });
+  }
+  if (certRequired) {
+    recs.push({ category: 'RISK FACTOR', impact: 'medium',
+      text: `Requiring certification eliminates approximately 45% of your reachable pool. Most senior Adobe practitioners with 5+ years of hands-on experience are not certified — they were building production systems during the exam windows. Treat certification as preferred, not required.` });
+  }
+  if (!siAcceptable && scarcity >= 7) {
+    recs.push({ category: 'RISK FACTOR', impact: 'medium',
+      text: `Excluding SI and agency candidates removes 40–60% of the senior talent pool. Most 5+ year specialists in AEP, CJA, and AEMaaCS built their expertise inside consulting firms. Excluding that background rules out the majority of qualified candidates.` });
+  }
+
+  // ── CATEGORY: NAVIGATOR BRIDGE (always last, always exactly 1) ─────────────
   const toolNames = selected.slice(0, 3).map(s => s.tool.name).join(', ');
-  const adjTTF = ttf || 90;
-  const sal = offeredSalary > 0 ? offeredSalary : Math.round((benchLow + benchHigh) / 2);
-  const year1Hire = Math.round(sal * 1.35 + sal * 0.25 + sal / 12 * 3 * 0.5 + (sal / 260) * adjTTF * 2.0);
-  const savingsVsNav = year1Hire - 124800;
-  const savingsStr = savingsVsNav > 0 ? '$' + Math.round(savingsVsNav / 1000) + 'K less' : 'less';
-  recs.push(`Navigator provides immediate access to a certified ${toolNames} expert \u2014 Day 3 start vs. ${adjTTF}-day search. At $10,400/mo (40 hrs), Navigator costs ${savingsStr} than a loaded FTE in year one and zero recruiting risk.`);
+  const savingsVsHire = year1Hire - 124800;
+  const savingsStr = savingsVsHire > 0 ? `$${Math.round(savingsVsHire / 1000)}K` : 'significantly';
+  recs.push({ category: 'NAVIGATOR BRIDGE', impact: 'high',
+    text: `Navigator provides a certified ${toolNames} expert starting Day 3 — no SOW, no recruiting cycle, no ramp time. While this search runs, Navigator is executing your ${toolIds[0] ? toolIds[0].replace('_',' ').toUpperCase() : 'platform'} roadmap. If you fill the role in ${adjTTF} days, Navigator has delivered ${Math.round(adjTTF / 30 * 40)} hours of progress your new hire builds on. At $10,400/mo (40 hrs), Navigator costs ${savingsStr} less than a loaded FTE in year one.` });
 
-  if (recs.length === 0) {
-    recs.push('Your profile is balanced. Standard recruiting channels should work — post on LinkedIn, Indeed, and Adobe Experience League community boards.');
-    recs.push('Engage your Adobe account team for their internal talent referral network.');
+  // Deduplicate by category (keep highest-impact per category, max 2 SEARCH STRATEGY)
+  const seen = {};
+  const dedupedRecs = [];
+  for (const rec of recs) {
+    const cat = rec.category;
+    if (cat === 'SEARCH STRATEGY') {
+      seen[cat] = (seen[cat] || 0) + 1;
+      if (seen[cat] <= 2) dedupedRecs.push(rec);
+    } else if (!seen[cat]) {
+      seen[cat] = 1;
+      dedupedRecs.push(rec);
+    }
   }
 
-  return recs.slice(0, 6);
+  // Return as array of objects (category + text) — callers that used plain strings get rec.text
+  return dedupedRecs.slice(0, 7);
 }
 
 
@@ -3536,7 +3884,7 @@ function exportPDF() {
   const date = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
   const toolChips = d.selected.map(s => s.tool.name).join(' · ');
 
-  // ── Navigator cost data ──
+  // ── Cost data ──
   const salary      = d.offeredSalary > 0 ? d.offeredSalary : Math.round((d.benchLow + d.benchHigh) / 2);
   const year1Hire   = Math.round(salary*1.35 + salary*0.25 + salary/12*3*0.5 + (salary/260)*d.ttf*2.0);
   const pTool       = d.selected[0]?.tool?.id || 'aem_sites';
@@ -3546,137 +3894,207 @@ function exportPDF() {
   const saveVsSI    = siD.typicalMid - recTier.annual;
   const fteTotalD   = d.ttf + 90;
   const siDelay     = 21 + Math.round(d.ttf * 0.6);
-  const hrsRecov    = Math.round((fteTotalD - 3) * 8 * 0.7);
   const maxCost     = Math.max(year1Hire, siD.typicalMid) * 1.05;
   const fteBarW     = Math.round((year1Hire / maxCost) * 100);
   const siBarW      = Math.round((siD.typicalMid / maxCost) * 100);
   const navBarW     = Math.round((recTier.annual / maxCost) * 100);
-
-  let fitGrade, fitLabel, fitColor, fitBg, fitReason;
-  if (d.pct < 20 || d.scarcity >= 8) {
-    fitGrade='A'; fitLabel='Grade A Fit'; fitColor='#15803d'; fitBg='#dcfce7';
-    fitReason='Hiring this profile is critically difficult. Navigator delivers verified expertise from day one — no search risk, no vacancy gap, no ramp time.';
-  } else if (d.pct < 50 || d.scarcity >= 6) {
-    fitGrade='B'; fitLabel='Grade B Fit'; fitColor='#b45309'; fitBg='#fef3c7';
-    fitReason='A challenging hire with real pool constraints. Navigator closes the gap immediately while you search — or replaces the search entirely.';
-  } else {
-    fitGrade='C'; fitLabel='Grade C Fit'; fitColor='#1d4ed8'; fitBg='#dbeafe';
-    fitReason='Hiring is feasible here. Navigator gives you elastic expert capacity — no headcount commitment, no ramp.';
-  }
+  const dailyVacancy = salary > 0 ? Math.round((salary / 260) * 2.0) : 0;
+  const totalVacancy = dailyVacancy * d.ttf;
+  const scarColor = d.scarcity>=8.5?'#F87171':d.scarcity>=6.5?'#FBBF24':d.scarcity>=4.5?'#60A5FA':'#4ADE80';
 
   // ── Recs ──
-  const recs = buildRecs({ prob: d.prob, selected: d.selected, numTools: d.numTools,
+  const recsRaw = buildRecs({ prob: d.prob, selected: d.selected, numTools: d.numTools,
     offeredSalary: d.offeredSalary, benchLow: d.benchLow, benchHigh: d.benchHigh,
     location: d.location, certRequired, siAcceptable, roleType: d.roleType, scarcity: d.scarcity,
-    ttf: d.ttf, salRange: d.salRange });
+    ttf: d.ttf, salRange: d.salRange, postingAnalysis: window._postingAnalysis });
 
-  // ── Assemble print view ──
+  // Normalize recs to object format
+  const recs = recsRaw.map(r => typeof r === 'string' ? { category: 'SEARCH STRATEGY', text: r } : r);
+
+  // ── Posting critique section ──
+  const pa = window._postingAnalysis;
+  let critiqueHtml = '';
+  if (pa) {
+    const scoreColor = pa.overallScore >= 80 ? '#4ADE80' : pa.overallScore >= 60 ? '#FBBF24' : '#F87171';
+    const dimBars = pa.dimensions.map(dim => {
+      const fillPct = Math.round((dim.score / dim.maxScore) * 100);
+      const barColor = dim.grade === 'A' ? '#4ADE80' : dim.grade === 'B' ? '#FBBF24' : dim.grade === 'C' ? '#60A5FA' : '#F87171';
+      return `<div class="pv-dim-row">
+        <div class="pv-dim-name">${dim.name}</div>
+        <div class="pv-dim-bar-wrap"><div class="pv-dim-bar-fill" style="width:${fillPct}%;background:${barColor};"></div></div>
+        <div class="pv-dim-grade" style="color:${barColor};">${dim.grade}</div>
+      </div>`;
+    }).join('');
+    critiqueHtml = `
+      <div class="pv-section pv-avoid-break">
+        <div class="pv-section-title">Posting Analysis</div>
+        <div class="pv-critique-grid">
+          <div class="pv-score-block">
+            <div class="pv-score-num" style="color:${scoreColor};">${pa.overallScore}</div>
+            <div class="pv-score-label">out of 100</div>
+            <div class="pv-score-grade" style="color:${scoreColor};">${pa.overallGrade}</div>
+          </div>
+          <div>
+            <div class="pv-top-finding">
+              <div class="pv-top-finding-label">Key Finding</div>
+              ${pa.topIssue}
+            </div>
+            ${dimBars}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // ── Vacancy cost row ──
+  const vacancyRow = dailyVacancy > 0 ? `
+    <div class="pv-vacancy-card pv-avoid-break">
+      <div class="pv-vacancy-label">Vacancy Cost</div>
+      <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:7.5pt;color:#94A3B8;">Daily cost</div>
+          <div class="pv-vacancy-daily">$${dailyVacancy.toLocaleString()}</div>
+        </div>
+        <div style="color:#475569;font-size:12pt;">×</div>
+        <div>
+          <div style="font-size:7.5pt;color:#94A3B8;">${d.ttf}-day search</div>
+          <div class="pv-vacancy-total">$${Math.round(totalVacancy/1000)}K</div>
+        </div>
+        <div style="font-size:8pt;color:#94A3B8;flex:1;min-width:120px;line-height:1.4;">total vacancy cost before your new hire delivers a single project</div>
+      </div>
+    </div>` : '';
+
+  // ── Recs HTML ──
+  const badgeClassMap = {
+    'POSTING FIX': 'POSTING_FIX',
+    'SEARCH STRATEGY': 'SEARCH_STRATEGY',
+    'COMPENSATION INSIGHT': 'COMPENSATION_INSIGHT',
+    'TIMELINE REALITY': 'TIMELINE_REALITY',
+    'RISK FACTOR': 'RISK_FACTOR',
+    'NAVIGATOR BRIDGE': 'NAVIGATOR_BRIDGE'
+  };
+  const recsHtml = recs.map(r => {
+    const cat = r.category || 'SEARCH STRATEGY';
+    const cls = badgeClassMap[cat] || 'SEARCH_STRATEGY';
+    return `<li class="pv-rec-item">
+      <div class="pv-rec-badge pv-rec-badge-${cls}">${cat}</div>
+      <div class="pv-rec-text">${r.text}</div>
+    </li>`;
+  }).join('');
+
+  // ── Company name for footer ──
+  const companyLine = (parsedJDState && parsedJDState.companyName)
+    ? `Prepared for ${parsedJDState.companyName} &nbsp;·&nbsp; ` : '';
+
   const ttfRange = `${d.ttf}–${Math.round(d.ttf*1.3)} days`;
   const poolDisp = d.pool > 1000 ? `~${(d.pool/1000).toFixed(1)}K` : `~${d.pool}`;
   const demandRow = d.demandRatio ? `<tr><td>Candidates per Open Role</td><td>${d.demandRatio}:1</td></tr>` : '';
-  const scarColor = d.scarcity>=8.5?'#c0152a':d.scarcity>=6.5?'#c2530a':d.scarcity>=4.5?'#c47d0a':'#15803d';
   const salCompare = d.offeredSalary > 0 ? `<tr><td>Your Salary vs. Benchmark</td><td>${getSalaryLabel(d.offeredSalary, d.benchLow, d.benchHigh).replace(/<[^>]+>/g,'')}</td></tr>` : '';
 
   document.getElementById('printView').innerHTML = `
-    <div id="pv-page">
+    <div id="pv-page" style="background:#0F172A;padding:10px;">
+
       <!-- HEADER -->
       <div class="pv-header">
-        ${logoSrc ? `<img src="${logoSrc}" class="pv-logo" alt="Navigator by Focus GTS">` : ''}
-        <div>
-          <div class="pv-report-title">Adobe Hiring Intelligence Report</div>
-          <div class="pv-report-sub">${d.jobTitle ? d.jobTitle + ' &nbsp;·&nbsp; ' : ''}${toolChips} &nbsp;·&nbsp; ${date}</div>
+        <div class="pv-header-left">
+          ${logoSrc ? `<img src="${logoSrc}" class="pv-logo" alt="Navigator by Focus GTS">` : ''}
+          <div>
+            <div class="pv-report-title">Adobe Hiring Intelligence Report</div>
+            <div class="pv-report-sub">${d.jobTitle ? d.jobTitle : 'Adobe Platform Role'}</div>
+          </div>
+        </div>
+        <div class="pv-header-right">
+          <div class="pv-header-chips">${toolChips}</div>
+          <div class="pv-header-date">${date}</div>
         </div>
       </div>
 
-      <!-- SECTION 1: HIRING ANALYSIS -->
-      <div class="pv-section">
-        <div class="pv-section-title">Hiring Intelligence Analysis</div>
-        <div class="pv-analysis-grid pv-avoid-break">
+      ${critiqueHtml}
+
+      <!-- SECTION: HIRING DIFFICULTY -->
+      <div class="pv-section pv-avoid-break">
+        <div class="pv-section-title">Hiring Difficulty Assessment</div>
+        <div class="pv-analysis-grid">
           <div class="pv-prob-block">
             <div class="pv-prob-pct" style="color:${d.color};">${d.pctLow}–${d.pctHigh}%</div>
             <div class="pv-prob-days">${d.timeline}-day fill probability</div>
-            <div class="pv-tier-badge" style="background:${d.color}18;color:${d.color};">${d.tierTag} — ${d.tier}</div>
+            <div class="pv-tier-badge" style="background:${d.color}22;color:${d.color};">${d.tierTag} — ${d.tier}</div>
             <div class="pv-tier-sub" style="margin-top:8px;">${d.tierSub}</div>
           </div>
-          <table class="pv-stats-table">
-            <tr><td>Qualified US Talent Pool</td><td>${poolDisp} professionals</td></tr>
-            ${demandRow}
-            <tr><td>Expected Time to Fill</td><td>${ttfRange}</td></tr>
-            <tr><td>Market Salary Benchmark</td><td>${d.salRange}</td></tr>
-            ${salCompare}
-            <tr><td>Market Scarcity Score</td><td style="color:${scarColor};">${d.scarcity.toFixed(1)} / 10</td></tr>
-          </table>
+          <div>
+            <table class="pv-stats-table">
+              <tr><td>Qualified US Talent Pool</td><td>${poolDisp} professionals</td></tr>
+              ${demandRow}
+              <tr><td>Expected Time to Fill</td><td>${ttfRange}</td></tr>
+              <tr><td>Market Salary Benchmark</td><td>${d.salRange}</td></tr>
+              ${salCompare}
+              <tr><td>Market Scarcity Score</td><td style="color:${scarColor};">${d.scarcity.toFixed(1)} / 10</td></tr>
+            </table>
+            ${vacancyRow}
+          </div>
         </div>
       </div>
 
-      <!-- SECTION 2: NAVIGATOR -->
-      <div class="pv-section">
-        <div class="pv-section-title">The On-Demand Alternative — Navigator by Focus GTS</div>
-        <div class="pv-fit-row">
-          <div class="pv-fit-badge" style="background:${fitBg};color:${fitColor};">${fitLabel}</div>
-          <div class="pv-fit-reason">${fitReason}</div>
-        </div>
-        <table class="pv-cost-table pv-avoid-break">
+      <!-- SECTION: STRATEGIC GAME PLAN -->
+      <div class="pv-section pv-avoid-break">
+        <div class="pv-section-title">Strategic Game Plan</div>
+        <ul class="pv-rec-list">${recsHtml}</ul>
+      </div>
+
+      <!-- SECTION: COST COMPARISON -->
+      <div class="pv-section pv-avoid-break">
+        <div class="pv-section-title">Cost and Timeline Comparison</div>
+        <table class="pv-cost-table">
           <tr>
             <td class="pv-cost-name">Full-time Hire</td>
-            <td class="pv-cost-amt" style="color:#c0152a;">${fmt(year1Hire)}/yr</td>
-            <td class="pv-cost-bar-cell"><div class="pv-bar-track"><div class="pv-bar-fill" style="width:${fteBarW}%;background:#e03040;"></div></div></td>
+            <td class="pv-cost-amt" style="color:#F87171;">${fmt(year1Hire)}/yr</td>
+            <td class="pv-cost-bar-cell"><div class="pv-bar-track"><div class="pv-bar-fill" style="width:${fteBarW}%;background:linear-gradient(90deg,#ef4444,#F87171);"></div></div></td>
           </tr>
           <tr>
             <td class="pv-cost-name">SI Partner Project</td>
-            <td class="pv-cost-amt" style="color:#b45309;">${fmtK(siD.typicalMid)}–${fmtK(siD.typicalHigh)}</td>
-            <td class="pv-cost-bar-cell"><div class="pv-bar-track"><div class="pv-bar-fill" style="width:${siBarW}%;background:#d97706;"></div></div></td>
+            <td class="pv-cost-amt" style="color:#FBBF24;">${fmtK(siD.typicalMid)}–${fmtK(siD.typicalHigh)}</td>
+            <td class="pv-cost-bar-cell"><div class="pv-bar-track"><div class="pv-bar-fill" style="width:${siBarW}%;background:linear-gradient(90deg,#d97706,#FBBF24);"></div></div></td>
           </tr>
           <tr class="pv-nav-row">
-            <td class="pv-cost-name" style="font-weight:800;">Navigator ${recTier.name}</td>
-            <td class="pv-cost-amt" style="color:#15803d;font-weight:800;">${fmt(recTier.annual)}/yr</td>
-            <td class="pv-cost-bar-cell"><div class="pv-bar-track"><div class="pv-bar-fill" style="width:${navBarW}%;background:#16a34a;"></div></div></td>
+            <td class="pv-cost-name" style="font-weight:800;color:#4ADE80;">Navigator ${recTier.name}</td>
+            <td class="pv-cost-amt" style="color:#4ADE80;font-weight:800;">${fmt(recTier.annual)}/yr</td>
+            <td class="pv-cost-bar-cell"><div class="pv-bar-track"><div class="pv-bar-fill" style="width:${navBarW}%;background:linear-gradient(90deg,#7C4FD5,#3A6FD8);"></div></div></td>
           </tr>
         </table>
         <div class="pv-savings-strip">
           <div class="pv-saving-card">
             <div class="pv-saving-label">vs. Full-time Hire</div>
-            <div class="pv-saving-val" style="color:${saveVsHire>0?'#15803d':'#c0152a'};">${saveVsHire>0?'Save '+fmt(saveVsHire):'±'+fmt(Math.abs(saveVsHire))}</div>
-            <div style="font-size:8.5pt;color:#5a527a;margin-top:2px;">Year 1 total cost of hire</div>
+            <div class="pv-saving-val" style="color:${saveVsHire>0?'#4ADE80':'#F87171'};">${saveVsHire>0?'Save '+fmt(saveVsHire):'±'+fmt(Math.abs(saveVsHire))}</div>
+            <div style="font-size:7.5pt;color:#94A3B8;margin-top:3px;">Year 1 total cost of hire</div>
           </div>
           <div class="pv-saving-card">
             <div class="pv-saving-label">vs. SI Partner Project</div>
-            <div class="pv-saving-val" style="color:${saveVsSI>0?'#15803d':'#c0152a'};">${saveVsSI>0?'Save '+fmt(saveVsSI):'±'+fmt(Math.abs(saveVsSI))}</div>
-            <div style="font-size:8.5pt;color:#5a527a;margin-top:2px;">Typical mid-range project</div>
+            <div class="pv-saving-val" style="color:${saveVsSI>0?'#4ADE80':'#F87171'};">${saveVsSI>0?'Save '+fmt(saveVsSI):'±'+fmt(Math.abs(saveVsSI))}</div>
+            <div style="font-size:7.5pt;color:#94A3B8;margin-top:3px;">Typical mid-range project</div>
           </div>
         </div>
         <div class="pv-time-grid pv-avoid-break">
-          <div class="pv-time-col" style="background:#fff0f0;">
-            <div class="pv-time-head" style="color:#c0152a;">Full-time Hire</div>
-            <div class="pv-time-days" style="color:#c0152a;">${fteTotalD} days</div>
+          <div class="pv-time-col">
+            <div class="pv-time-head" style="color:#F87171;">Full-time Hire</div>
+            <div class="pv-time-days" style="color:#F87171;">${fteTotalD}d</div>
             <div class="pv-time-sub">${d.ttf}-day search + 90-day ramp</div>
           </div>
-          <div class="pv-time-col" style="background:#fffbeb;">
-            <div class="pv-time-head" style="color:#b45309;">SI Partner</div>
-            <div class="pv-time-days" style="color:#b45309;">${siDelay}+ days</div>
+          <div class="pv-time-col">
+            <div class="pv-time-head" style="color:#FBBF24;">SI Partner</div>
+            <div class="pv-time-days" style="color:#FBBF24;">${siDelay}+d</div>
             <div class="pv-time-sub">SOW + scoping + kickoff lag</div>
           </div>
-          <div class="pv-time-col" style="background:#f0fdf4;">
-            <div class="pv-time-head" style="color:#15803d;">Navigator</div>
-            <div class="pv-time-days" style="color:#15803d;">3 days</div>
-            <div class="pv-time-sub">Match to vetted expert · ${hrsRecov.toLocaleString()} hrs recovered vs. FTE</div>
+          <div class="pv-time-col">
+            <div class="pv-time-head" style="color:#4ADE80;">Navigator</div>
+            <div class="pv-time-days" style="color:#4ADE80;">3d</div>
+            <div class="pv-time-sub">Match to vetted expert. Execution starts immediately.</div>
           </div>
         </div>
-      </div>
-
-      <!-- SECTION 3: STRATEGIC RECOMMENDATIONS -->
-      <div class="pv-section">
-        <div class="pv-section-title">Strategic Recommendations</div>
-        <ul class="pv-rec-list">
-          ${recs.map(r=>`<li class="pv-rec-item"><span class="pv-rec-arrow">→</span><span>${r}</span></li>`).join('')}
-        </ul>
       </div>
 
       <!-- FOOTER -->
       <div class="pv-footer">
-        Navigator by Focus GTS &nbsp;·&nbsp; focusgts.com/navigator &nbsp;·&nbsp;
-        Data: Robert Half 2026 · LinkedIn · ZipRecruiter · SHRM · Panorama Consulting 2024 ·
-        ±15% model variance · focusgts.com/navigator
+        ${companyLine}Navigator by Focus GTS &nbsp;·&nbsp; focusgts.com/navigator &nbsp;·&nbsp; ${date}<br>
+        Data: Robert Half 2026 · LinkedIn · ZipRecruiter · SHRM 2025 · Panorama Consulting 2024 · Gartner · ±15% model variance
       </div>
     </div>`;
 
