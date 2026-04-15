@@ -1859,7 +1859,8 @@ const JD_TOOL_PATTERNS = [
 const REQUIRED_SIGNALS = ['required','must have','must-have','mandatory','essential','minimum requirement'];
 const NICE_SIGNALS = ['preferred','nice to have','nice-to-have','plus','bonus','desired','a plus','an asset',
                       'familiarity with','familiar with','knowledge of','exposure to','awareness of',
-                      'understanding of','ideally','ideally have','ideally possess'];
+                      'understanding of','ideally','ideally have','ideally possess',
+                      'working knowledge of','basic understanding of','not required but','certification not required'];
 
 function getLineContext(text, matchIndex) {
   const lineStart = text.lastIndexOf('\n', matchIndex) + 1;
@@ -2706,6 +2707,8 @@ function renderResults({ prob, pool, ttf, salRange, scarcity, selected, numTools
     selected,
     ttf,
     jobTitle,
+    benchLow,
+    benchHigh,
     parsedText: parsedJDState ? parsedJDState._rawText || '' : ''
   });
 
@@ -3287,7 +3290,7 @@ function matchJDToTasks(rawText, toolIds) {
 }
 
 // ── Build the full delivery analysis section ─────────────────────────────────
-function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
+function buildDeliverableAnalysis({ selected, ttf, jobTitle, benchLow, benchHigh, parsedText }) {
   const toolIds = selected.map(s => s.tool.id);
   const tasks = matchJDToTasks(parsedText || '', toolIds);
   const phaseLabels = ['', 'Phase 1 — Foundation', 'Phase 2 — Core Implementation', 'Phase 3 — Advanced & Optimization'];
@@ -3435,6 +3438,16 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
     if (rmMonths[5].tasks.length < 5) rmMonths[5].tasks.push({ task: s, navHrs: 0 });
   });
 
+  // Compute which month Foundation (Phase 1) work is done by — used in comparison table
+  const lastFoundationIdx = rmMonths.reduce((last, m, i) =>
+    m.tasks.some(t => t.phase === 1) ? i : last, 0);
+  const foundationDoneBy = `Month ${lastFoundationIdx + 1}`;
+
+  // FTE Year 1 loaded cost from salary benchmark (1.35× benefits burden)
+  const fteSalLow  = benchLow  > 0 ? Math.round(benchLow  * 1.35 / 5000) * 5   : 180;
+  const fteSalHigh = benchHigh > 0 ? Math.round(benchHigh * 1.35 / 5000) * 5   : 280;
+  const fteYear1 = `$${fteSalLow}K–$${fteSalHigh}K`;
+
   const rmPhaseClasses = ['', 'phase-1', 'phase-2', 'phase-3'];
   const rmPhaseNameMap = ['', 'Foundation', 'Core Implementation', 'Advanced & Optimization'];
 
@@ -3471,7 +3484,7 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
         <div class="del-compare-item"><span class="del-compare-key">Start date</span><span class="del-compare-val">Day 3</span></div>
         <div class="del-compare-item"><span class="del-compare-key">First deliverable</span><span class="del-compare-val">Week 1</span></div>
         <div class="del-compare-item"><span class="del-compare-key">Total hours</span><span class="del-compare-val">240 hrs</span></div>
-        <div class="del-compare-item"><span class="del-compare-key">Foundation done by</span><span class="del-compare-val">Month 2</span></div>
+        <div class="del-compare-item"><span class="del-compare-key">Foundation done by</span><span class="del-compare-val">${foundationDoneBy}</span></div>
         <div class="del-compare-item"><span class="del-compare-key">Full platform live</span><span class="del-compare-val">Month 4–5</span></div>
         <div class="del-compare-item"><span class="del-compare-key">Headcount added</span><span class="del-compare-val">0</span></div>
       </div>
@@ -3488,7 +3501,7 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, parsedText }) {
         <div class="del-compare-col-title">FTE Hire — 6-Month Reality</div>
         <div class="del-compare-item"><span class="del-compare-key">Start date</span><span class="del-compare-val">Day ${ttf}+</span></div>
         <div class="del-compare-item"><span class="del-compare-key">First deliverable</span><span class="del-compare-val">Month 4–5</span></div>
-        <div class="del-compare-item"><span class="del-compare-key">Year 1 cost</span><span class="del-compare-val">$180K–$280K</span></div>
+        <div class="del-compare-item"><span class="del-compare-key">Year 1 cost</span><span class="del-compare-val">${fteYear1}</span></div>
         <div class="del-compare-item"><span class="del-compare-key">Foundation done by</span><span class="del-compare-val">Month 5–7</span></div>
         <div class="del-compare-item"><span class="del-compare-key">Full productivity</span><span class="del-compare-val">Month 7+</span></div>
         <div class="del-compare-item"><span class="del-compare-key">Search failure risk</span><span class="del-compare-val">30–45%</span></div>
