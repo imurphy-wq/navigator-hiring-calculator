@@ -1127,14 +1127,29 @@
   .si-col .del-compare-val { color: #f59e0b; }
   .fte-col .del-compare-val { color: var(--muted); }
 
-  /* ── Print / PDF Export ── */
+  /* ── Print / PDF Export & Present Mode ── */
   #printView { display: none; }
+  #presentOverlay {
+    position: fixed; inset: 0; z-index: 9999;
+    overflow-y: auto; overflow-x: hidden;
+    display: none;
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    font-size: 9.5pt; font-weight: 500; line-height: 1.5;
+    /* Dark mode tokens */
+    --pv-bg: #0F172A; --pv-card: #1E293B; --pv-border: #334155;
+    --pv-text: #E2E8F0; --pv-title: #FFFFFF; --pv-muted: #94A3B8; --pv-footer-color: #475569;
+    --pv-badge-blue: #60A5FA; --pv-badge-green: #4ADE80; --pv-badge-amber: #FBBF24;
+    --pv-badge-slate: #94A3B8; --pv-badge-red: #F87171; --pv-badge-violet: #A78BFA;
+    --pv-vacancy-accent: #FBBF24;
+    background: var(--pv-bg); color: var(--pv-text);
+  }
   @media print {
     @page { size: letter; margin: 0.4in; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
-    html, body { background: #0F172A !important; color: #E2E8F0 !important; margin: 0 !important; padding: 0 !important; }
+    html, body { background: #fff !important; color: #1e293b !important; margin: 0 !important; padding: 0 !important; }
     body > * { display: none !important; }
-    #printView { display: block !important; background: #0F172A !important; }
+    #printView { display: block !important; background: #fff !important; }
+    #presentOverlay { display: none !important; }
     .pv-avoid-break { page-break-inside: avoid; }
   }
 
@@ -1146,18 +1161,36 @@
     font-family: inherit; transition: all 0.15s; letter-spacing: 0.3px;
   }
   .pdf-export-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .present-btn {
+    background: linear-gradient(135deg, #1E293B, #334155);
+    border: 1px solid #475569; color: #E2E8F0;
+    font-size: 11px; font-weight: 700;
+    padding: 6px 14px; border-radius: 6px; cursor: pointer;
+    font-family: inherit; transition: all 0.15s; letter-spacing: 0.3px;
+  }
+  .present-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .pv-present-close {
+    position: sticky; top: 12px; float: right; z-index: 10000;
+    background: rgba(255,255,255,0.1); color: #E2E8F0;
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+    font-size: 12px; font-weight: 700; padding: 5px 14px; cursor: pointer;
+    font-family: inherit; letter-spacing: 0.3px; backdrop-filter: blur(8px);
+    transition: background 0.15s; margin-bottom: -32px;
+  }
+  .pv-present-close:hover { background: rgba(255,255,255,0.2); }
 
-  /* ── Print View Styles (dark mode) ── */
+  /* ── Print/Present shared pv-* styles — colors from CSS vars on parent ── */
   #printView {
     font-family: 'Space Grotesk', -apple-system, sans-serif;
-    color: #E2E8F0;
-    background: #0F172A;
-    padding: 0;
-    max-width: 100%;
-    margin: 0;
-    font-size: 9.5pt;
-    font-weight: 500;
-    line-height: 1.5;
+    /* Light mode tokens */
+    --pv-bg: #ffffff; --pv-card: #f8fafc; --pv-border: #e2e8f0;
+    --pv-text: #1e293b; --pv-title: #0f172a; --pv-muted: #64748b; --pv-footer-color: #64748b;
+    --pv-badge-blue: #2563eb; --pv-badge-green: #16a34a; --pv-badge-amber: #d97706;
+    --pv-badge-slate: #475569; --pv-badge-red: #dc2626; --pv-badge-violet: #7c3aed;
+    --pv-vacancy-accent: #b45309;
+    background: var(--pv-bg); color: var(--pv-text);
+    padding: 0; max-width: 100%; margin: 0;
+    font-size: 9.5pt; font-weight: 500; line-height: 1.5;
   }
   .pv-header {
     display: flex; align-items: center; justify-content: space-between;
@@ -1169,70 +1202,67 @@
   }
   .pv-header-left { display: flex; align-items: center; gap: 12px; }
   .pv-logo { height: 28px; width: auto; }
-  .pv-report-title { font-size: 13pt; font-weight: 800; color: #FFFFFF; margin-bottom: 2px; letter-spacing: -0.3px; }
-  .pv-report-sub { font-size: 8pt; color: #94A3B8; }
+  .pv-report-title { font-size: 13pt; font-weight: 800; color: var(--pv-title); margin-bottom: 2px; letter-spacing: -0.3px; }
+  .pv-report-sub { font-size: 8pt; color: var(--pv-muted); }
   .pv-header-right { text-align: right; }
-  .pv-header-date { font-size: 7.5pt; color: #94A3B8; }
-  .pv-header-chips { font-size: 8pt; color: #94A3B8; margin-top: 2px; }
+  .pv-header-date { font-size: 7.5pt; color: var(--pv-muted); }
+  .pv-header-chips { font-size: 8pt; color: var(--pv-muted); margin-top: 2px; }
 
   .pv-section { margin-bottom: 16px; }
   .pv-section-title {
     font-size: 7.5pt; font-weight: 800; letter-spacing: 1.5px;
-    text-transform: uppercase; color: #94A3B8;
+    text-transform: uppercase; color: var(--pv-muted);
     padding-bottom: 5px; margin-bottom: 10px;
-    border-bottom: 1px solid #334155;
+    border-bottom: 1px solid var(--pv-border);
   }
 
   /* Posting critique section */
   .pv-critique-grid { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start; }
   .pv-score-block {
-    background: #1E293B; border: 1px solid #334155;
+    background: var(--pv-card); border: 1px solid var(--pv-border);
     border-radius: 10px; padding: 12px 10px; text-align: center;
   }
   .pv-score-num { font-size: 36pt; font-weight: 900; line-height: 1; margin-bottom: 2px; }
-  .pv-score-label { font-size: 7.5pt; color: #94A3B8; margin-bottom: 6px; }
+  .pv-score-label { font-size: 7.5pt; color: var(--pv-muted); margin-bottom: 6px; }
   .pv-score-grade { font-size: 14pt; font-weight: 800; }
   .pv-top-finding {
     background: rgba(124,79,213,0.12); border: 1px solid rgba(124,79,213,0.3);
     border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;
-    font-size: 8.5pt; line-height: 1.5; color: #E2E8F0;
+    font-size: 8.5pt; line-height: 1.5; color: var(--pv-text);
   }
   .pv-top-finding-label { font-size: 7pt; font-weight: 800; color: #7C4FD5; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
   .pv-dim-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .pv-dim-name { font-size: 7.5pt; color: #94A3B8; width: 130px; flex-shrink: 0; }
-  .pv-dim-bar-wrap { flex: 1; background: #334155; border-radius: 3px; height: 7px; overflow: hidden; }
+  .pv-dim-name { font-size: 7.5pt; color: var(--pv-muted); width: 130px; flex-shrink: 0; }
+  .pv-dim-bar-wrap { flex: 1; background: var(--pv-border); border-radius: 3px; height: 7px; overflow: hidden; }
   .pv-dim-bar-fill { height: 7px; border-radius: 3px; }
-  .pv-dim-grade {
-    font-size: 7.5pt; font-weight: 800; width: 20px; text-align: center;
-    flex-shrink: 0;
-  }
+  .pv-dim-grade { font-size: 7.5pt; font-weight: 800; width: 20px; text-align: center; flex-shrink: 0; }
 
   /* Hiring difficulty section */
   .pv-analysis-grid { display: grid; grid-template-columns: 140px 1fr; gap: 14px; align-items: start; }
   .pv-prob-block {
-    background: #1E293B; border: 1px solid #334155;
+    background: var(--pv-card); border: 1px solid var(--pv-border);
     border-radius: 10px; padding: 12px 10px; text-align: center;
   }
   .pv-prob-pct { font-size: 26pt; font-weight: 900; line-height: 1.1; margin-bottom: 4px; }
-  .pv-prob-days { font-size: 8pt; color: #94A3B8; margin-bottom: 8px; }
+  .pv-prob-days { font-size: 8pt; color: var(--pv-muted); margin-bottom: 8px; }
   .pv-tier-badge {
     display: inline-block; font-size: 7.5pt; font-weight: 800;
     padding: 3px 10px; border-radius: 20px; margin-bottom: 6px;
   }
-  .pv-tier-sub { font-size: 7.5pt; color: #94A3B8; line-height: 1.4; }
+  .pv-tier-sub { font-size: 7.5pt; color: var(--pv-muted); line-height: 1.4; }
   .pv-stats-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
-  .pv-stats-table tr { border-bottom: 1px solid #334155; }
+  .pv-stats-table tr { border-bottom: 1px solid var(--pv-border); }
   .pv-stats-table td { padding: 5px 6px; }
-  .pv-stats-table td:first-child { color: #94A3B8; }
-  .pv-stats-table td:last-child { font-weight: 700; text-align: right; color: #E2E8F0; }
+  .pv-stats-table td:first-child { color: var(--pv-muted); }
+  .pv-stats-table td:last-child { font-weight: 700; text-align: right; color: var(--pv-text); }
   .pv-vacancy-card {
-    background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.3);
+    background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.35);
     border-radius: 8px; padding: 10px 12px; margin-top: 10px;
-    font-size: 8.5pt; color: #E2E8F0; line-height: 1.5;
+    font-size: 8.5pt; color: var(--pv-text); line-height: 1.5;
   }
-  .pv-vacancy-label { font-size: 7pt; font-weight: 800; color: #FBBF24; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .pv-vacancy-daily { font-size: 12pt; font-weight: 800; color: #FBBF24; }
-  .pv-vacancy-total { font-size: 18pt; font-weight: 900; color: #FBBF24; }
+  .pv-vacancy-label { font-size: 7pt; font-weight: 800; color: var(--pv-vacancy-accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .pv-vacancy-daily { font-size: 12pt; font-weight: 800; color: var(--pv-vacancy-accent); }
+  .pv-vacancy-total { font-size: 18pt; font-weight: 900; color: var(--pv-vacancy-accent); }
 
   /* Strategic game plan */
   .pv-rec-list { list-style: none; padding: 0; margin: 0; }
@@ -1242,41 +1272,41 @@
     border-radius: 4px; white-space: nowrap; flex-shrink: 0;
     margin-top: 1px; letter-spacing: 0.3px; text-transform: uppercase;
   }
-  .pv-rec-badge-POSTING_FIX { background: rgba(58,111,216,0.2); color: #60A5FA; }
-  .pv-rec-badge-SEARCH_STRATEGY { background: rgba(74,222,128,0.15); color: #4ADE80; }
-  .pv-rec-badge-COMPENSATION_INSIGHT { background: rgba(251,191,36,0.15); color: #FBBF24; }
-  .pv-rec-badge-TIMELINE_REALITY { background: rgba(148,163,184,0.15); color: #94A3B8; }
-  .pv-rec-badge-RISK_FACTOR { background: rgba(248,113,113,0.15); color: #F87171; }
-  .pv-rec-badge-NAVIGATOR_BRIDGE { background: rgba(124,79,213,0.2); color: #A78BFA; }
-  .pv-rec-text { font-size: 8.5pt; color: #E2E8F0; line-height: 1.5; }
+  .pv-rec-badge-POSTING_FIX { background: rgba(58,111,216,0.2); color: var(--pv-badge-blue); }
+  .pv-rec-badge-SEARCH_STRATEGY { background: rgba(74,222,128,0.15); color: var(--pv-badge-green); }
+  .pv-rec-badge-COMPENSATION_INSIGHT { background: rgba(251,191,36,0.15); color: var(--pv-badge-amber); }
+  .pv-rec-badge-TIMELINE_REALITY { background: rgba(148,163,184,0.15); color: var(--pv-badge-slate); }
+  .pv-rec-badge-RISK_FACTOR { background: rgba(248,113,113,0.15); color: var(--pv-badge-red); }
+  .pv-rec-badge-NAVIGATOR_BRIDGE { background: rgba(124,79,213,0.2); color: var(--pv-badge-violet); }
+  .pv-rec-text { font-size: 8.5pt; color: var(--pv-text); line-height: 1.5; }
 
   /* Cost comparison */
   .pv-cost-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 8.5pt; }
-  .pv-cost-table tr { border-bottom: 1px solid #334155; }
+  .pv-cost-table tr { border-bottom: 1px solid var(--pv-border); }
   .pv-cost-table td { padding: 6px 5px; vertical-align: middle; }
-  .pv-cost-name { font-weight: 600; width: 36%; color: #E2E8F0; }
+  .pv-cost-name { font-weight: 600; width: 36%; color: var(--pv-text); }
   .pv-cost-amt { font-weight: 800; text-align: right; white-space: nowrap; width: 22%; }
   .pv-cost-bar-cell { width: 42%; padding-left: 8px !important; }
-  .pv-bar-track { background: #334155; border-radius: 3px; height: 8px; overflow: hidden; }
+  .pv-bar-track { background: var(--pv-border); border-radius: 3px; height: 8px; overflow: hidden; }
   .pv-bar-fill { height: 8px; border-radius: 3px; }
   .pv-nav-row td { background: rgba(74,222,128,0.05) !important; }
   .pv-savings-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
   .pv-saving-card {
-    background: #1E293B; border: 1px solid #334155;
+    background: var(--pv-card); border: 1px solid var(--pv-border);
     border-radius: 8px; padding: 8px 10px;
   }
-  .pv-saving-label { font-size: 7.5pt; color: #94A3B8; margin-bottom: 4px; }
+  .pv-saving-label { font-size: 7.5pt; color: var(--pv-muted); margin-bottom: 4px; }
   .pv-saving-val { font-size: 12pt; font-weight: 800; }
   .pv-time-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-  .pv-time-col { background: #1E293B; border: 1px solid #334155; border-radius: 8px; padding: 8px 10px; text-align: center; }
+  .pv-time-col { background: var(--pv-card); border: 1px solid var(--pv-border); border-radius: 8px; padding: 8px 10px; text-align: center; }
   .pv-time-head { font-size: 7.5pt; font-weight: 700; margin-bottom: 4px; }
   .pv-time-days { font-size: 16pt; font-weight: 900; line-height: 1; margin-bottom: 2px; }
-  .pv-time-sub { font-size: 7pt; color: #94A3B8; line-height: 1.4; }
+  .pv-time-sub { font-size: 7pt; color: var(--pv-muted); line-height: 1.4; }
 
   .pv-footer {
-    font-size: 7.5pt; color: #475569; text-align: center;
+    font-size: 7.5pt; color: var(--pv-footer-color); text-align: center;
     padding-top: 10px; margin-top: 14px;
-    border-top: 1px solid #334155;
+    border-top: 1px solid var(--pv-border);
     line-height: 1.6;
   }
 
@@ -1501,6 +1531,7 @@
       <div id="dashboardTitle" class="analysis-title"></div>
       <div style="display:flex;gap:8px;align-items:center;">
         <button class="pdf-export-btn" onclick="exportPDF()">↓ Export PDF</button>
+        <button class="present-btn" onclick="presentMode()">⬛ Present</button>
         <button class="analysis-collapse" onclick="collapseAnalysis()">↑ Collapse</button>
       </div>
     </div>
@@ -3873,10 +3904,10 @@ function buildDeliverableAnalysis({ selected, ttf, jobTitle, benchLow, benchHigh
 }
 
 
-// ── PDF Export ──────────────────────────────────────────────────────────
-function exportPDF() {
+// ── PDF Export & Present Mode ───────────────────────────────────────────
+function buildPrintHTML() {
   const d = window._printData;
-  if (!d) { alert('Run a calculation first, then export to PDF.'); return; }
+  if (!d) return null;
 
   const fmtK = n => n >= 1000000 ? `$${(n/1000000).toFixed(1)}M` : `$${Math.round(n/1000)}K`;
   const fmt  = n => '$' + n.toLocaleString();
@@ -3907,8 +3938,6 @@ function exportPDF() {
     offeredSalary: d.offeredSalary, benchLow: d.benchLow, benchHigh: d.benchHigh,
     location: d.location, certRequired, siAcceptable, roleType: d.roleType, scarcity: d.scarcity,
     ttf: d.ttf, salRange: d.salRange, postingAnalysis: window._postingAnalysis });
-
-  // Normalize recs to object format
   const recs = recsRaw.map(r => typeof r === 'string' ? { category: 'SEARCH STRATEGY', text: r } : r);
 
   // ── Posting critique section ──
@@ -3945,32 +3974,29 @@ function exportPDF() {
       </div>`;
   }
 
-  // ── Vacancy cost row ──
+  // ── Vacancy cost card ──
   const vacancyRow = dailyVacancy > 0 ? `
     <div class="pv-vacancy-card pv-avoid-break">
       <div class="pv-vacancy-label">Vacancy Cost</div>
       <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
         <div>
-          <div style="font-size:7.5pt;color:#94A3B8;">Daily cost</div>
+          <div style="font-size:7.5pt;color:var(--pv-muted);">Daily cost</div>
           <div class="pv-vacancy-daily">$${dailyVacancy.toLocaleString()}</div>
         </div>
-        <div style="color:#475569;font-size:12pt;">×</div>
+        <div style="color:var(--pv-muted);font-size:12pt;">×</div>
         <div>
-          <div style="font-size:7.5pt;color:#94A3B8;">${d.ttf}-day search</div>
+          <div style="font-size:7.5pt;color:var(--pv-muted);">${d.ttf}-day search</div>
           <div class="pv-vacancy-total">$${Math.round(totalVacancy/1000)}K</div>
         </div>
-        <div style="font-size:8pt;color:#94A3B8;flex:1;min-width:120px;line-height:1.4;">total vacancy cost before your new hire delivers a single project</div>
+        <div style="font-size:8pt;color:var(--pv-muted);flex:1;min-width:120px;line-height:1.4;">total vacancy cost before your new hire delivers a single project</div>
       </div>
     </div>` : '';
 
   // ── Recs HTML ──
   const badgeClassMap = {
-    'POSTING FIX': 'POSTING_FIX',
-    'SEARCH STRATEGY': 'SEARCH_STRATEGY',
-    'COMPENSATION INSIGHT': 'COMPENSATION_INSIGHT',
-    'TIMELINE REALITY': 'TIMELINE_REALITY',
-    'RISK FACTOR': 'RISK_FACTOR',
-    'NAVIGATOR BRIDGE': 'NAVIGATOR_BRIDGE'
+    'POSTING FIX': 'POSTING_FIX', 'SEARCH STRATEGY': 'SEARCH_STRATEGY',
+    'COMPENSATION INSIGHT': 'COMPENSATION_INSIGHT', 'TIMELINE REALITY': 'TIMELINE_REALITY',
+    'RISK FACTOR': 'RISK_FACTOR', 'NAVIGATOR BRIDGE': 'NAVIGATOR_BRIDGE'
   };
   const recsHtml = recs.map(r => {
     const cat = r.category || 'SEARCH STRATEGY';
@@ -3981,17 +4007,16 @@ function exportPDF() {
     </li>`;
   }).join('');
 
-  // ── Company name for footer ──
+  // ── Company / footer ──
   const companyLine = (parsedJDState && parsedJDState.companyName)
     ? `Prepared for ${parsedJDState.companyName} &nbsp;·&nbsp; ` : '';
-
   const ttfRange = `${d.ttf}–${Math.round(d.ttf*1.3)} days`;
   const poolDisp = d.pool > 1000 ? `~${(d.pool/1000).toFixed(1)}K` : `~${d.pool}`;
   const demandRow = d.demandRatio ? `<tr><td>Candidates per Open Role</td><td>${d.demandRatio}:1</td></tr>` : '';
   const salCompare = d.offeredSalary > 0 ? `<tr><td>Your Salary vs. Benchmark</td><td>${getSalaryLabel(d.offeredSalary, d.benchLow, d.benchHigh).replace(/<[^>]+>/g,'')}</td></tr>` : '';
 
-  document.getElementById('printView').innerHTML = `
-    <div id="pv-page" style="background:#0F172A;padding:10px;">
+  return `
+    <div id="pv-page" style="background:var(--pv-bg);padding:10px;max-width:860px;margin:0 auto;">
 
       <!-- HEADER -->
       <div class="pv-header">
@@ -4064,12 +4089,12 @@ function exportPDF() {
           <div class="pv-saving-card">
             <div class="pv-saving-label">vs. Full-time Hire</div>
             <div class="pv-saving-val" style="color:${saveVsHire>0?'#4ADE80':'#F87171'};">${saveVsHire>0?'Save '+fmt(saveVsHire):'±'+fmt(Math.abs(saveVsHire))}</div>
-            <div style="font-size:7.5pt;color:#94A3B8;margin-top:3px;">Year 1 total cost of hire</div>
+            <div style="font-size:7.5pt;color:var(--pv-muted);margin-top:3px;">Year 1 total cost of hire</div>
           </div>
           <div class="pv-saving-card">
             <div class="pv-saving-label">vs. SI Partner Project</div>
             <div class="pv-saving-val" style="color:${saveVsSI>0?'#4ADE80':'#F87171'};">${saveVsSI>0?'Save '+fmt(saveVsSI):'±'+fmt(Math.abs(saveVsSI))}</div>
-            <div style="font-size:7.5pt;color:#94A3B8;margin-top:3px;">Typical mid-range project</div>
+            <div style="font-size:7.5pt;color:var(--pv-muted);margin-top:3px;">Typical mid-range project</div>
           </div>
         </div>
         <div class="pv-time-grid pv-avoid-break">
@@ -4097,12 +4122,36 @@ function exportPDF() {
         Data: Robert Half 2026 · LinkedIn · ZipRecruiter · SHRM 2025 · Panorama Consulting 2024 · Gartner · ±15% model variance
       </div>
     </div>`;
+}
 
+function exportPDF() {
+  const html = buildPrintHTML();
+  if (!html) { alert('Run a calculation first, then export to PDF.'); return; }
+  document.getElementById('printView').innerHTML = html;
   window.print();
+}
+
+function presentMode() {
+  const html = buildPrintHTML();
+  if (!html) { alert('Run a calculation first.'); return; }
+  const overlay = document.getElementById('presentOverlay');
+  overlay.innerHTML = `
+    <button class="pv-present-close" onclick="closePresentMode()">✕ Close</button>
+    ${html}`;
+  overlay.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closePresentMode() {
+  const overlay = document.getElementById('presentOverlay');
+  overlay.style.display = 'none';
+  overlay.innerHTML = '';
+  document.body.style.overflow = '';
 }
 
 init();
 </script>
 <div id="printView"></div>
+<div id="presentOverlay"></div>
 </body>
 </html>
