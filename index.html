@@ -2020,39 +2020,69 @@ function parseJD(rawText) {
   };
 
   // ---- Job Title ----
-  // Try explicit label patterns first, then lines containing title-indicative words
+  // 1. Explicit "Job Title: ..." label patterns
+  // 2. Scan first 10 non-empty lines for a short title-word line
+  // 3. Last resort: first non-empty line in top 5 that isn't a section header
   const titleLabelPatterns = [
     /(?:job\s+title|position\s+title|title)[:\s]+([^\n]{5,80})/i,
     /(?:position|role)[:\s]+([^\n]{5,80})/i,
   ];
-  const titleWordRe = /\b(architect|developer|engineer|manager|analyst|specialist|consultant|director|administrator|lead|ops|strategist|coordinator|expert|practitioner|principal|staff|associate)\b/i;
+  const titleWordRe = /\b(architect|developer|engineer|manager|analyst|specialist|consultant|director|administrator|lead|ops|strategist|coordinator|expert|practitioner|principal|staff|associate|implementer|implementation)\b/i;
+  // Lines starting with these are never job titles
+  const nonTitleStartRe = /^(about|we are|we're|we offer|our |the company|the team|join |at |apply|requirements?|responsibilities|qualifications?|benefits|why |what |how |who |overview|summary|description|you will|you'll|you should|if you|must have|you have|ideal candidate|required skills?|preferred skills?|skills & experience|essential|duties|compensation|location|remote|hybrid|on-?site|\d+\s*[\.\)—-]|\•|-\s)/i;
+  // Single-word section headers (Overview, Summary, etc.) are never titles
+  const singleWordHeaderRe = /^(overview|summary|introduction|description|about|role|position|responsibilities|requirements|qualifications|benefits|compensation)\.?$/i;
+
   let foundTitle = false;
+
+  // Step 1: explicit label
   for (const tp of titleLabelPatterns) {
     const m = t.match(tp);
     if (m && m[1] && m[1].trim().length > 4) {
-      result.jobTitle = m[1].trim().replace(/[*_#]/g, '').replace(/\s+/g, ' ');
+      result.jobTitle = m[1].trim().replace(/[*_#\[\]]/g, '').replace(/\s+/g, ' ');
       foundTitle = true;
       break;
     }
   }
+
+  // Step 2: first 10 non-empty lines — look for a short line containing a title word
   if (!foundTitle) {
-    // Scan all lines for one that contains a title-indicative word
     const lines = t.split('\n');
+    let checked = 0;
     for (const line of lines) {
-      const l = line.trim().replace(/[*_#]/g, '').replace(/\s+/g, ' ');
-      if (l.length >= 5 && l.length <= 100 && titleWordRe.test(l) && !/^(about|we are|our |the |join |at |apply|requirements|responsibilities|qualifications|benefits|why|what|how|who|overview|summary|description)/i.test(l)) {
+      const l = line.trim().replace(/[*_#\[\]]/g, '').replace(/\s+/g, ' ');
+      if (!l) continue;
+      checked++;
+      if (checked > 10) break;
+      if (
+        l.length >= 8 && l.length <= 90 &&
+        titleWordRe.test(l) &&
+        !nonTitleStartRe.test(l) &&
+        !singleWordHeaderRe.test(l) &&
+        !l.includes('http') && !l.includes('@')
+      ) {
         result.jobTitle = l;
         foundTitle = true;
         break;
       }
     }
   }
+
+  // Step 3: last resort — first non-empty, non-header line in top 5
   if (!foundTitle) {
-    // Last resort: first non-empty line under 80 chars
     const lines = t.split('\n');
+    let checked = 0;
     for (const line of lines) {
-      const l = line.trim().replace(/[*_#]/g, '');
-      if (l.length >= 5 && l.length <= 80) {
+      const l = line.trim().replace(/[*_#\[\]]/g, '');
+      if (!l) continue;
+      checked++;
+      if (checked > 5) break;
+      if (
+        l.length >= 8 && l.length <= 80 &&
+        !singleWordHeaderRe.test(l) &&
+        !nonTitleStartRe.test(l) &&
+        !l.includes('http') && !l.includes('@')
+      ) {
         result.jobTitle = l;
         break;
       }
@@ -2100,11 +2130,14 @@ function parseJD(rawText) {
   ];
 
   let maxYears = 0;
-  expPatterns.forEach(re => {
+  expPatterns.forEach((re, idx) => {
     const r = new RegExp(re.source, 'gi');
     let m;
     while ((m = r.exec(tl)) !== null) {
-      const yr = parseInt(m[2] || m[1]);
+      // For range patterns (idx 0: X-Y years, idx 1: X to Y years)
+      // use the lower bound (m[1]) — "7-10 years" means minimum 7, not 10
+      // For all other patterns there is only one capture group anyway
+      const yr = parseInt(idx < 2 && m[2] ? m[1] : (m[2] || m[1]));
       if (!isNaN(yr) && yr > maxYears && yr <= 20) maxYears = yr;
     }
   });
